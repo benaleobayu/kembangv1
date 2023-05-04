@@ -1,0 +1,79 @@
+<div class="flex-shrink-0 p-3" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center pb-3 mb-3 text-decoration-none border-bottom">
+        <span class="fs-5 ms-3 fw-semibold">CMS</span>
+    </a>
+    <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+                Customers Center
+            </button>
+            <div class="collapse  {{ Request::is('customers*', 'subscribers*') ? 'show' : '' }}" id="home-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="/customers"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('customers*') ? 'active' : '' }}">Customers</a>
+                    </li>
+                    <li><a href="/subscribers"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('subscribers*') ? 'active' : '' }}">Data
+                            Langganan</a></li>
+                </ul>
+            </div>
+        </li>
+        <li>
+            <a href="/riders"
+                class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('riders*') ? 'active' : '' }}"
+                style="padding: 6px 12px">Data Riders</a>
+        </li>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                Orders
+            </button>
+            <div class="collapse" id="orders-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a>
+                    </li>
+                    <li><a href="#"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
+                    <li><a href="#"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
+                    <li><a href="#"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                data-bs-toggle="collapse" data-bs-target="#settings-collapse" aria-expanded="false">
+                Settings
+            </button>
+            <div class="collapse {{ Request::is('regencies*', 'flowers*') ? 'show' : '' }}" id="settings-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <a href="/regencies"
+                        class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('regencies*') ? 'active' : '' }}"
+                        style="padding: 6px 12px">List Regency</a><br>
+                    <a href="/flowers"
+                        class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('flowers*') ? 'active' : '' }}"
+                        style="padding: 6px 12px">List Bunga</a>
+                </ul>
+            </div>
+        </li>
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                Account
+            </button>
+            <div class="collapse" id="account-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New...</a></li>
+                    <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Profile</a></li>
+                    <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Settings</a></li>
+                    <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Sign out</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="b-example-divider b-example-vr"></div>
