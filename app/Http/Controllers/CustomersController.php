@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Regency;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Customers;
 
 class CustomersController extends Controller
 {
@@ -17,15 +18,13 @@ class CustomersController extends Controller
         $search = $request->query('search');
 
         if (!empty($search)) {
-            $query = User::where('name', 'like', '%' . $search . '%')
+            $query = Customers::where('name', 'like', '%' . $search . '%')
                 ->orWhere('address', 'like', '%' . $search . '%')
                 ->paginate(10)->withQueryString();
         } else {
-            $query = User::orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
+            $query = Customers::orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
         }
 
-
-        $query = User::orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
 
         return view('customers.customersIndex', [
             'data' => $query,
@@ -39,7 +38,7 @@ class CustomersController extends Controller
     public function create()
     {
         return view('customers.customersCreate', [
-            'data' => User::all(),
+            'data' => Customers::all(),
             'regency' => Regency::orderBy('name', 'asc')->get()
         ]);
     }
@@ -61,27 +60,27 @@ class CustomersController extends Controller
         $createUser['password'] = bcrypt('password');
         $createUser['email'] = fake()->unique()->safeEmail();
 
-        User::create($createUser);
+        Customers::create($createUser);
         return redirect('/customers')->with('success', 'Data berhasil ditambahkan !');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $users, $id)
+    public function show(Customers $customers, $id)
     {
-        $data = $users->find($id);
+        $data = $customers->find($id);
         return view('customers.customersShow', [
-            'data' => $data
+            'data' => $data,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $users, $id)
+    public function edit(Customers $customers, $id)
     {
-        $data = $users->find($id);
+        $data = $customers->find($id);
         return view('customers.customersEdit', [
             'data' => $data,
             'regency' => Regency::orderBy('name', 'asc')->get()
@@ -99,14 +98,14 @@ class CustomersController extends Controller
         ];
         $validateData = $request->validate($rules);
 
-        User::where('id', $id)
+        Customers::where('id', $id)
             ->update($validateData);
         return redirect('/customers')->with('success', 'User Berhasil diubah !');
     }
 
     public function destroy(string $id)
     {
-        User::destroy($id);
+        Customers::destroy($id);
         return redirect('/customers')->with('success', 'User Berhasil dihapus !');
     }
 }
