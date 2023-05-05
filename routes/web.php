@@ -9,17 +9,15 @@ use App\Http\Controllers\LanggananController;
 use App\Http\Controllers\RegencyController;
 use App\Http\Controllers\RiderController;
 
-Route::get('/', function () {
-    return view('index');
-});
-Route::resource('/customers', CustomersController::class);
-Route::resource('/subscribers', LanggananController::class );
-Route::resource('/riders', RiderController::class);
 
-Route::resource('/regencies', RegencyController::class);
-Route::resource('/flowers', FlowersController::class);
+Route::resource('/customers', CustomersController::class)->middleware('auth');
+Route::resource('/subscribers', LanggananController::class )->middleware('auth');
+Route::resource('/riders', RiderController::class)->middleware('auth');
+
+Route::resource('/regencies', RegencyController::class)->middleware('auth');
+Route::resource('/flowers', FlowersController::class)->middleware('auth');
 
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index']);
