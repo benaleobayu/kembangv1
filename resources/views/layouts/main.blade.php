@@ -8,7 +8,7 @@
     <title>CMS Apa Aja</title>
 
     <!-- Custom styles for this template -->
-    <link href="/asset/css/sidebars.css?v2" rel="stylesheet">
+    <link href="/asset/css/sidebars.css" rel="stylesheet">
     <link href="/asset/css/style.css?v2" rel="stylesheet">
 
     <!-- Scripts -->
@@ -23,6 +23,9 @@
 
             @yield('content')
         </div>
+
+        @include('layouts.alert')
+      
     </main>
 
     <script src="/asset/js/jquery.js"></script>

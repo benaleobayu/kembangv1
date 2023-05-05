@@ -20,4 +20,4 @@ Route::resource('/flowers', FlowersController::class)->middleware('auth');
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('cms');

@@ -63,11 +63,6 @@
                 </tbody>
             </table>
             {{ $data->links() }}
-            @if (session()->has('success'))
-                <div class="alert alert-success alert-dismissible fade show position-absolute end-0 top-0" role="alert">
-                    <strong>{{ session('success') }}!</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+           
     </div>
 @endsection
