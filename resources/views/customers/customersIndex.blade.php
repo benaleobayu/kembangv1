@@ -36,10 +36,10 @@
                         <tr>
                             <td>{{ $nomor++ }}</td>
                             <td>{{ $d->name }}</td>
-                            <td>{{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br> Telp :
+                            <td class="w-25">{{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br> Telp :
                                 {{ $d->phone }}</td>
                             <td>{{ $d->regencies->name }}</td>
-                            <td>{{ $d->interest }}</td>
+                            <td class="w-25">{{ $d->interest }}</td>
                             <td>{{ $d->created_at }}</td>
                             <td>{{ $d->updated_at }}</td>
                             <td style="white-space: nowrap">
