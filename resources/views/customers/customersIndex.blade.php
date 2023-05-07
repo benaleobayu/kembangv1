@@ -9,7 +9,7 @@
             <div class="searching-box">
                 <form action="/customers" method="get">
                     <div class="input-group w-25 mb-3 ms-auto">
-                        <input type="text" class="form-control" placeholder="Cari Riders..." aria-label="Cari Riders"
+                        <input type="text" class="form-control" placeholder="Cari ..." aria-label="Cari Riders"
                             aria-describedby="button-addon2" name="search" value="{{ $search }}">
                         <button class="btn btn-outline-secondary px-3" type="submit" id="button-addon2">Cari</button>
                     </div>

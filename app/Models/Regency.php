@@ -31,5 +31,9 @@ class Regency extends Model
     {
         return $this->hasMany(Langganan::class);
     }
+      public function orders(): HasMany
+    {
+        return $this->hasMany(Langganan::class);
+    }
     
 }

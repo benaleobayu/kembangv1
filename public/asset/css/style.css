@@ -3,9 +3,17 @@ body.loginPage{
     
 }
 
+thead {
+    background-color: pink;
+}
+
 
 td {
     font-size: 12px;
+}
+
+td.text-top {
+    vertical-align: text-top;
 }
 
 .input-group-append {

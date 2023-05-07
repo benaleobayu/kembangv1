@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\FlowersController;
 use App\Http\Controllers\LanggananController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\RegencyController;
 use App\Http\Controllers\RiderController;
 
@@ -13,6 +14,8 @@ use App\Http\Controllers\RiderController;
 Route::resource('/customers', CustomersController::class)->middleware('auth');
 Route::resource('/subscribers', LanggananController::class )->middleware('auth');
 Route::resource('/riders', RiderController::class)->middleware('auth');
+
+Route::resource('/orders', OrdersController::class)->middleware('auth');
 
 Route::resource('/regencies', RegencyController::class)->middleware('auth');
 Route::resource('/flowers', FlowersController::class)->middleware('auth');

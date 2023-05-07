@@ -8,6 +8,7 @@ use App\Models\Flowers;
 use App\Models\User;
 use App\Models\Rider;
 use App\Models\Langganan;
+use App\Models\Orders;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -32,6 +33,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Rider::Factory()->count(15)->create();
         Langganan::Factory()->count(45)->create();
+        Orders::Factory()->count(45)->create();
 
      
     }

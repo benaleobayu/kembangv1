@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLanggananRequest;
 use App\Http\Requests\UpdateLanggananRequest;
+use App\Models\Flowers;
+use App\Models\Regency;
 
 class LanggananController extends Controller
 {
@@ -62,17 +64,38 @@ class LanggananController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Langganan $langganan)
+    public function edit(Langganan $langganan, $id)
     {
-        
+        $data = $langganan->find($id);
+        return view ('customers.langgananEdit',[
+            'data' => $data,
+            'regency' => Regency::orderBy('name', 'asc')->get(),
+            'flowers' => Flowers::orderBy('name', 'asc')->get()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLanggananRequest $request, Langganan $langganan)
+    public function update(Request $request, Langganan $langganan, $id)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required',
+            'address' => 'required|max:255',
+            'regencies_id' => 'required',
+            'phone' => 'numeric',
+            'flowers_id' => 'numeric',
+            'total' => 'numeric',
+            'notes' => 'max:255',
+            'day' => 'required'
+        ]);
+
+        $validateData['pic'] = auth()->user()->name;
+
+        Langganan::where('id', $id)->update($validateData);
+
+        return redirect('/subscribers')->with('success', 'Data Langganan berhasil diubah !');
+
     }
 
     /**

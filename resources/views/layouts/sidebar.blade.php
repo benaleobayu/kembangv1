@@ -31,14 +31,10 @@
             </button>
             <div class="collapse" id="orders-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a>
-                    </li>
-                    <li><a href="#"
-                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
-                    <li><a href="#"
-                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                    <li><a href="#"
-                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
+                    <li><a href="/orders" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('orders*') ? 'active' : '' }}">Data Pesanan</a></li>
+                    <li><a href="/paydrivers" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('paydrivers*') ? 'active' : '' }}">Ongkos Rider</a></li>
+                    <li><a href="/paycustomers" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('paycustomers*') ? 'active' : '' }}">Tagihan Customers</a></li>
+                    <li><a href="/documentation" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('documentation*') ? 'active' : '' }}">Dokumentasisss Pesanan</a></li>
                 </ul>
             </div>
         </li>
