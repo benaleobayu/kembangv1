@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -24,3 +25,4 @@ Route::resource('/flowers', FlowersController::class)->middleware('auth');
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('cms');
+Route::get('/logout', [LoginController::class, 'logout']);
