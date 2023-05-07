@@ -23,7 +23,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        User::Factory()->count(55)->create();
+        // User::Factory()->count(55)->create();
+
+        User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@brandingku.com',
+            'password' => bcrypt('password')
+        ]);
         Rider::Factory()->count(15)->create();
         Langganan::Factory()->count(45)->create();
 

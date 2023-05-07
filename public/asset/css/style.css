@@ -1,3 +1,9 @@
+body.loginPage{
+    background-image: url("/storage/img/flowers-bg.jpg");
+    
+}
+
+
 td {
     font-size: 12px;
 }
