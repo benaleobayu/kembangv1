@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserRoles;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRolesRequest;
 use App\Http\Requests\UpdateUserRolesRequest;
 
@@ -11,9 +13,20 @@ class UserRolesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->query('search');
+
+        if (!empty($search)) {
+            $query = UserRoles::where('name', 'like', '%' . $search . '%')
+                        ->orderBy('id', 'asc')->paginate(10)->withQueryString();
+        } else {
+            $query = UserRoles::orderBy('id', 'asc')->paginate(10)->withQueryString();
+        }
+        return view('settings.adminRolesIndex', [
+            'data' => $query,
+            'search' => $search
+        ]);
     }
 
     /**
