@@ -9,7 +9,8 @@
         <div class="searching-box">
             <form action="/admin" method="get">
                 <div class="input-group w-25 mb-3 ms-auto">
-                    <button onclick="window.location='/admin'"  type="button" class="btn" rel="tooltip" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button onclick="window.location='/admin'" type="button" class="btn" rel="tooltip"
+                        title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
 
                     <input type="text" class="form-control rounded-start" placeholder="Cari ..." aria-label="Cari"
                         aria-describedby="button-addon2" name="search" value="{{ $search }}">
@@ -17,7 +18,6 @@
                 </div>
             </form>
         </div>
-       
         <table cellpadding=10 cellspacing=0 border=1 class="w-100">
             <thead>
                 <tr>
@@ -36,13 +36,14 @@
                 @foreach ($data as $d)
                     <tr>
                         <td class="text-top">{{ $nomor++ }}</td>
-                            {{ $d->phone }}</td>
+                        {{ $d->phone }}</td>
                         <td class="text-top">{{ $d->name }}</td>
                         <td class="text-top">{{ $d->username }}</td>
                         <td class="text-top">{{ $d->email }}</td>
                         <td class="text-top">{{ $d->roles->name }}</td>
                         <td class="text-top" style="white-space: nowrap">
-                            <button class="badge border-0 p-2 bg-info" onclick="window.location='{{ url('/admin/' . $d->id) }}'">
+                            <button class="badge border-0 p-2 bg-info"
+                                onclick="window.location='{{ url('/admin/' . $d->id) }}'">
                                 <i class="bi bi-eye"></i>
                             </button>
                             <button class="badge border-0 p-2 bg-warning"
@@ -63,7 +64,7 @@
         </table>
         {{ $data->links() }}
 
-        
-    </div>
+        <div class="col-6">
 
-@endsection
+        </div>
+    @endsection
