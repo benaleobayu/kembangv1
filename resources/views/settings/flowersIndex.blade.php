@@ -13,7 +13,7 @@
 
                     <input type="text" class="form-control" placeholder="Cari Riders..." aria-label="Cari Riders"
                         aria-describedby="button-addon2" name="search" value="{{ $search }}">
-                    <button class="btn btn-outline-secondary px-3" type="submit" id="button-addon2">Cari</button>
+                    <button class="btn btn-outline-secondary px-3" type="submit" id="search">Cari</button>
                 </div>
             </form>
         </div>

@@ -15,6 +15,11 @@ class RegencyController extends Controller
      */
     public function index (Request $request)
     {
+
+        if(auth()->guest()){
+            abort(403);
+        }
+        
         $search = $request->query('search');
 
         if (!empty($search)) {

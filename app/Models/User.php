@@ -23,12 +23,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
-        'address',
-        'regencies_id',
-        'phone',
-        'interest',
+        'roles_id'
     ];
 
     /**
@@ -50,8 +48,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function regencies(): BelongsTo
+    public function roles(): BelongsTo
     {
-        return $this->belongsTo(Regency::class);
+        return $this->belongsTo(UserRoles::class);
     }
+
 }

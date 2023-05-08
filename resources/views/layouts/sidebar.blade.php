@@ -31,10 +31,18 @@
             </button>
             <div class="collapse" id="orders-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li><a href="/orders" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('orders*') ? 'active' : '' }}">Data Pesanan</a></li>
-                    <li><a href="/paydrivers" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('paydrivers*') ? 'active' : '' }}">Ongkos Rider</a></li>
-                    <li><a href="/paycustomers" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('paycustomers*') ? 'active' : '' }}">Tagihan Customers</a></li>
-                    <li><a href="/documentation" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('documentation*') ? 'active' : '' }}">Dokumentasisss Pesanan</a></li>
+                    <li><a href="/orders"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('orders*') ? 'active' : '' }}">Data
+                            Pesanan</a></li>
+                    <li><a href="/paydrivers"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('paydrivers*') ? 'active' : '' }}">Ongkos
+                            Rider</a></li>
+                    <li><a href="/paycustomers"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('paycustomers*') ? 'active' : '' }}">Tagihan
+                            Customers</a></li>
+                    <li><a href="/documentation"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('documentation*') ? 'active' : '' }}">Dokumentasisss
+                            Pesanan</a></li>
                 </ul>
             </div>
         </li>
@@ -43,14 +51,21 @@
                 data-bs-toggle="collapse" data-bs-target="#settings-collapse" aria-expanded="false">
                 Settings
             </button>
-            <div class="collapse {{ Request::is('regencies*', 'flowers*') ? 'show' : '' }}" id="settings-collapse">
+            <div class="collapse {{ Request::is('admin*', 'roles*', 'regencies*', 'flowers*') ? 'show' : '' }}"
+                id="settings-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <a href="/regencies"
-                        class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('regencies*') ? 'active' : '' }}"
-                        style="padding: 6px 12px">List Regency</a><br>
-                    <a href="/flowers"
-                        class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('flowers*') ? 'active' : '' }}"
-                        style="padding: 6px 12px">List Bunga</a>
+                    <li> <a href="/admin"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('admin*') ? 'active' : '' }}"
+                            style="padding: 6px 12px">Admin</a></li>
+                    <li> <a href="/roles"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('roles*') ? 'active' : '' }}"
+                            style="padding: 6px 12px">Roles</a></li>
+                    <li> <a href="/regencies"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('regencies*') ? 'active' : '' }}"
+                            style="padding: 6px 12px">List Regency</a></li>
+                    <li><a href="/flowers"
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('flowers*') ? 'active' : '' }}"
+                            style="padding: 6px 12px">List Bunga</a> </li>
                 </ul>
             </div>
         </li>
@@ -62,10 +77,18 @@
             </button>
             <div class="collapse" id="account-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li><a href="#" class="link-body-emphasis link-dark d-inline-flex text-decoration-none rounded">New...</a></li>
-                    <li><a href="#" class="link-body-emphasis link-dark d-inline-flex text-decoration-none rounded">Profile</a></li>
-                    <li><a href="#" class="link-body-emphasis link-dark d-inline-flex text-decoration-none rounded">Settings</a></li>
-                    <li><a href="/logout" class="link-body-emphasis link-dark d-inline-flex text-decoration-none rounded">Sign out</a></li>
+                    <li><a href="#"
+                            class="link-body-emphasis link-dark d-inline-flex text-decoration-none rounded">New...</a>
+                    </li>
+                    <li><a href="#"
+                            class="link-body-emphasis link-dark d-inline-flex text-decoration-none rounded">Profile</a>
+                    </li>
+                    <li><a href="#"
+                            class="link-body-emphasis link-dark d-inline-flex text-decoration-none rounded">Settings</a>
+                    </li>
+                    <li><a href="/logout"
+                            class="link-body-emphasis link-dark d-inline-flex text-decoration-none rounded">Sign out</a>
+                    </li>
                 </ul>
             </div>
         </li>
