@@ -52,7 +52,7 @@
                                 onclick="window.location='{{ url('/orders/' . $d->id . '/edit') }}'">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <form action="/orders/{{ $d->id }}" method="post" class="d-inline">
+                            <form action="/deteleImage/{{ $d->id }}" method="post" class="d-inline">
                                 @method('delete')
                                 @csrf
                                 <button class="badge border-0 p-2 bg-danger" onclick="return confirm('User akan dihapus?')">

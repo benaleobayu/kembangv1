@@ -8,6 +8,7 @@ use App\Models\Flowers;
 use App\Models\Orders;
 use App\Models\Regency;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class OrdersController extends Controller
 {
@@ -98,6 +99,10 @@ class OrdersController extends Controller
 
         if($request->file('image'))
         {
+            if ($request->oldImage) 
+            {
+                Storage::delete($request->oldImage);
+            }
             $validateData['image'] = $request->file('image')->store('doc-img');
         }
 
@@ -113,6 +118,13 @@ class OrdersController extends Controller
      */
     public function destroy(Orders $orders, $id)
     {
+        $collect = $orders->find($id);
+
+        if ($collect->image) 
+        {
+            Storage::delete($collect->image);
+        }
+
         Orders::destroy($id);
 
         return redirect('/orders')->with('success', 'Order berhasil dihapus !');

@@ -96,16 +96,12 @@
                                 <input type="date" name="date" id="date" class="form-control" value="{{ old('date', $data->date) }}" disabled readonly>
 
                                 <label class="py-1" for="notes">Catatan</label>
-                                <textarea class="form-control @error('notes') is-invalid @enderror" name="notes" id="notes" cols="30" rows="5" disabled readonly>{{ $data->notes }}</textarea>
-                                @error('interest')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <textarea class="form-control" name="notes" id="notes" cols="30" rows="5" disabled readonly>{{ $data->notes }}</textarea>
+                            
                                 <div class="row mt-3">
                                   <div class="col">
                                     <label for="image">Hasil Pengerjaan</label>
-                                    <img class="border rounded img-fluid" src="{{ asset($data->image) }}" alt="">
+                                    <img class="border rounded img-fluid d-block" style="max-height:400px" src="{{ asset($data->image) }}" alt="">
                                  </div>
                                 </div>
                             </div>

@@ -96,7 +96,8 @@
                                 </div>
 
                                 <label class="py-1" for="day">Tanggal Pengiriman</label>
-                                <input type="date" name="date" id="date" class="form-control" value="{{ old('date', $data->date) }}">
+                                <input type="date" name="date" id="date" class="form-control"
+                                    value="{{ old('date', $data->date) }}">
 
                                 <label class="py-1" for="notes">Catatan</label>
                                 <textarea class="form-control @error('notes') is-invalid @enderror" name="notes" id="notes" cols="30"
@@ -107,15 +108,26 @@
                                     </div>
                                 @enderror
                                 <div class="row mt-3">
-                                  <div class="col-6">
-                                    <label for="image">Hasil Pengerjaan</label>
-                                    <input type="file" class="form-control  @error('image') is-invalid @enderror" name="image" id="image">
-                                    @error('image')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
+                                    <div class="col-6">
+                                        <label for="image">Hasil Pengerjaan</label>
+                                        <input type="hidden" name="oldImage" value="{{ $data->image }}">
+                                        @if ($data->image)
+                                            <img src="{{ asset('storage/' . $data->image) }}" alt=""
+                                                class="img-preview img-fluid col-sm-5 mb-3 d-block"
+                                                style="max-height: 400px">
+                                        @else
+                                            <img src="" alt=""
+                                                class="img-preview img-fluid col-sm-5 mb-3 d-block"
+                                                style="max-height: 400px">
+                                        @endif
+                                        <input type="file" class="form-control  @error('image') is-invalid @enderror"
+                                            name="image" id="image" onchange="previewImage()">
+                                        @error('image')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
-                                @enderror
-                                 </div>
                                 </div>
                             </div>
                         </div>
