@@ -27,28 +27,15 @@ class DatabaseSeeder extends Seeder
         // ]);
         // User::Factory()->count(55)->create();
 
-        User::factory()->create([
-            'name' => 'admin',
-            'username' => 'admin',
-            'roles_id' => mt_rand(1,3),
-            'email' => 'admin@brandingku.com',
-            'password' => bcrypt('password')
-        ]);
-        UserRoles::factory()->create([
-            'name' => 'admin'
-        ]);
-        UserRoles::factory()->create([
-            'name' => 'officer'
-        ]);
-        UserRoles::factory()->create([
-            'name' => 'user'
-        ]);
-        
 
         Rider::Factory()->count(15)->create();
         Langganan::Factory()->count(45)->create();
         Orders::Factory()->count(45)->create();
 
+        $this->call(RegencySeeder::class);
+        $this->call(FlowersSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(PermissionSeeder::class);
      
     }
 }

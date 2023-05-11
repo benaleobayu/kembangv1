@@ -40,7 +40,7 @@
                         <td class="text-top">{{ $d->name }}</td>
                         <td class="text-top">{{ $d->username }}</td>
                         <td class="text-top">{{ $d->email }}</td>
-                        <td class="text-top">{{ $d->roles->name }}</td>
+                        <td class="text-top">{{ $d->roles }}</td>
                         <td class="text-top" style="white-space: nowrap">
                             <button class="badge border-0 p-2 bg-info"
                                 onclick="window.location='{{ url('/admin/' . $d->id) }}'">

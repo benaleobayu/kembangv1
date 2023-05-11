@@ -18,15 +18,16 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('search');
-
         if (!empty($search)) {
             $query = User::where('name', 'like', '%' . $search . '%')->orWhere('username', 'like', '%' . $search . '%')->orWHere('email', 'like', '%' . $search . '%')->orderBy('id', 'asc')->paginate(10)->withQueryString();
         } else {
             $query = User::orderBy('id', 'asc')->paginate(10)->withQueryString();
         }
+        // $collectionRoles = collect($query->roles);
         return view('settings.adminIndex', [
             'data' => $query,
-            'search' => $search
+            'search' => $search,
+            // 'roles' => $collectionRoles[0]["name"]
         ]);
     }
 
@@ -36,7 +37,6 @@ class UserController extends Controller
     public function create()
     {
         return view('settings.adminCreate', [
-            'roles' => UserRoles::all()
         ]);
     }
 
@@ -69,7 +69,6 @@ class UserController extends Controller
         $data = $user->find($id);
         return view('settings.adminShow', [
             'data' => $data,
-            'roles' => UserRoles::all()
         ]);
     }
 
@@ -81,7 +80,6 @@ class UserController extends Controller
         $data = $user->find($id);
         return view('settings.adminEdit', [
             'data' => $data,
-            'roles' => UserRoles::all()
         ]);
     }
 

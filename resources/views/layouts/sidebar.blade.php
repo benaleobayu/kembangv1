@@ -46,6 +46,8 @@
                 </ul>
             </div>
         </li>
+     
+        @can('read Admin')
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                 data-bs-toggle="collapse" data-bs-target="#settings-collapse" aria-expanded="false">
@@ -69,7 +71,10 @@
                 </ul>
             </div>
         </li>
+        @else
+        @endcan
         <li class="border-top my-3"></li>
+
         <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                 data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
