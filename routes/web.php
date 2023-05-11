@@ -18,21 +18,25 @@ use App\Http\Controllers\UserRolesController;
 
 
 
-Route::middleware('auth')->group(function(){
-    Route::resource('/customers', CustomersController::class);
-    Route::resource('/subscribers', LanggananController::class );
+Route::middleware('auth')->group(function () {
+    Route::resource('/customers', CustomersController::class)->middleware("can: 'Read Customers'");
+    Route::resource('/subscribers', LanggananController::class);
     Route::resource('/riders', RiderController::class);
-    
+
     Route::resource('/orders', OrdersController::class);
 
     Route::resource('/admin', UserController::class);
     Route::resource('/roles', RolesController::class);
     Route::resource('/regencies', RegencyController::class);
     Route::resource('/flowers', FlowersController::class);
-    Route::get('/logout', [LoginController::class, 'logout']);
 
+
+    Route::get('/', function(){
+        Return view('index');
+    });
+    Route::get('/home', [HomeController::class, 'index'])->name('cms');
+
+    Route::get('/logout', [LoginController::class, 'logout']);
 });
 
 Auth::routes();
-
-Route::get('/', [HomeController::class, 'index'])->name('cms');

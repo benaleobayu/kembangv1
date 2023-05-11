@@ -101,7 +101,7 @@
                                 <div class="row mt-3">
                                   <div class="col">
                                     <label for="image">Hasil Pengerjaan</label>
-                                    <img class="border rounded img-fluid d-block" style="max-height:400px" src="{{ asset($data->image) }}" alt="">
+                                    <img class="border rounded img-fluid d-block" style="max-height:400px" src="{{ asset('storage/' . $data->image) }}" alt="">
                                  </div>
                                 </div>
                             </div>

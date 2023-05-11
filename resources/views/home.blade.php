@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-primary" onclick="window.location='/customers'">Go CMS</button>
+                    <button class="btn btn-primary" onclick="window.location='/'">Go CMS</button>
                 </div>
             </div>
         </div>

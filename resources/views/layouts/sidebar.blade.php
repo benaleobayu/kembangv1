@@ -10,12 +10,16 @@
             </button>
             <div class="collapse  {{ Request::is('customers*', 'subscribers*') ? 'show' : '' }}" id="home-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li><a href="/customers"
-                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('customers*') ? 'active' : '' }}">Customers</a>
+                    @can('Read Customers')
+                    <li>
+                        <a href="/customers" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('customers*') ? 'active' : '' }}">Customers</a>
+                    </li>    
+                    @endcan
+                    @can('Read Langganan')
+                    <li>
+                        <a href="/subscribers" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('subscribers*') ? 'active' : '' }}">Data Langganan</a>
                     </li>
-                    <li><a href="/subscribers"
-                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('subscribers*') ? 'active' : '' }}">Data
-                            Langganan</a></li>
+                    @endcan
                 </ul>
             </div>
         </li>

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Roles;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
+
 
 class RolesController extends Controller
 {
@@ -56,10 +60,19 @@ class RolesController extends Controller
      */
     public function edit(Roles $roles, $id)
     {   
-        $role = Role::findOrFail($id);
+    //     $role = Role::findOrFail($id);
+    //     $permissions = Permission::findOrFail($id);
         $finding = $roles->find($id);
         return view ('settings.adminRolesEdit',[
-            'data' => $finding,
+            'spell' => $finding,
+            'readCustomers' => 'Read Customers',
+            'createCustomers' => 'Create Customers',
+            'editCustomers' => 'Edit Customers',
+            'deleteCustomers' => 'Delete Customers',
+            'readLangganan' => 'Read Langganan',
+            'createLangganan' => 'Create Langganan',
+            'editLangganan' => 'Edit Langganan',
+            'deleteLangganan' => 'Delete Langganan',
         ]);
     }
 

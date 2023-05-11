@@ -14,14 +14,14 @@
             </div> --}}
             <div class="card px-5">
                 <div class="card-body">
-                    <form action="/roles/{{ $data->id }}" method="post" enctype="multipart/form-data">
+                    <form action="/roles/{{ $spell->id }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
                             <div class="col-6">
                                 <label class="py-1" for="name">Nama</label>
                                 <input name="name" class="form-control py-1 @error('name') is-invalid @enderror"
-                                    type="text" value="{{ old('name', $data->name) }}" required>
+                                    type="text" value="{{ old('name', $spell->name) }}" required>
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -49,192 +49,192 @@
                                 <tr>
                                     <td><h6 class="my-2">Customers</h6></td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
-                                            <input class="form-check-input" type="checkbox" value="Read Customers"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                        <div class="form-check d-flex justify-content-center my-2">
+                                            <input class="form-check-input" type="checkbox" value="{{ $readCustomers }}"
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($readCustomers) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
-                                            <input class="form-check-input" type="checkbox" value="Create Customers"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                        <div class="form-check d-flex justify-content-center my-2">
+                                            <input class="form-check-input" type="checkbox" value="{{ $createCustomers }}"
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($createCustomers) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
-                                            <input class="form-check-input" type="checkbox" value="Edit Customers"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                        <div class="form-check d-flex justify-content-center my-2">
+                                            <input class="form-check-input" type="checkbox" value="{{ $editCustomers }}"
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($editCustomers) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
-                                            <input class="form-check-input" type="checkbox" value="Delete Customers"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                        <div class="form-check d-flex justify-content-center my-2">
+                                            <input class="form-check-input" type="checkbox" value="{{ $deleteCustomers }}"
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($deleteCustomers) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><h6 class="my-2">Data Langganan</h6></td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
-                                            <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                        <div class="form-check d-flex justify-content-center my-2">
+                                            <input class="form-check-input" type="checkbox" value="{{ $readLangganan }}"
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($readLangganan) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
-                                            <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                        <div class="form-check d-flex justify-content-center my-2">
+                                            <input class="form-check-input" type="checkbox" value="{{ $createLangganan }}"
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($createLangganan) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
-                                            <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                        <div class="form-check d-flex justify-content-center my-2">
+                                            <input class="form-check-input" type="checkbox" value="{{ $editLangganan }}"
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($editLangganan) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
-                                            <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                        <div class="form-check d-flex justify-content-center my-2">
+                                            <input class="form-check-input" type="checkbox" value="{{ $deleteLangganan }}"
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($deleteLangganan) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                 </tr>
-                                 <tr>
+                                 {{-- <tr>
                                     <td><h6 class="my-2">Data Riders</h6></td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                 </tr>
                                   <tr>
                                     <td><h6 class="my-2">Data Pesanan</h6></td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                 </tr>
                                  <tr>
                                     <td><h6 class="my-2">Ongkos Rider</h6></td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                 </tr>
                                  <tr>
                                     <td><h6 class="my-2">Tagihan Customers</h6></td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                 </tr>
                                   <tr>
                                     <td><h6 class="my-2">Dokumentasi Pesanan</h6></td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center my-2">
+                                        <div class="form-check d-flex justify-content-center my-2">
                                             <input class="form-check-input" type="checkbox" value="A"
-                                                id="flexCheckDefault" name="permissions[]" {{ $finding->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                id="flexCheckDefault" name="permissions[]" {{ $spell->hasPermissionTo($permission) ? 'checked' : '' }}>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 
                             </tbody>
                         </table>

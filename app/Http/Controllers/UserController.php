@@ -17,6 +17,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        // $roles = User::find($id)->roles()->get();
+        // $roleID = $roles[0]->pivot->name;
+
         $search = $request->query('search');
         if (!empty($search)) {
             $query = User::where('name', 'like', '%' . $search . '%')->orWhere('username', 'like', '%' . $search . '%')->orWHere('email', 'like', '%' . $search . '%')->orderBy('id', 'asc')->paginate(10)->withQueryString();
@@ -27,6 +30,7 @@ class UserController extends Controller
         return view('settings.adminIndex', [
             'data' => $query,
             'search' => $search,
+            // 'role' => $roleID
             // 'roles' => $collectionRoles[0]["name"]
         ]);
     }
