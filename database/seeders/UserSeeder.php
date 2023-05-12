@@ -21,7 +21,12 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'remember_token' => Str::random(16)
         ]);
-
+        
+        $admins = User::create(array_merge([
+            'name' => 'Super Admin',
+            'username' => 'Super.Admin',
+            'email' => 'admin@test.com'
+        ],$defaultValue));
         $user1 = User::create(array_merge([
             'name' => 'Priska',
             'username' => 'Officer.Priska',
@@ -37,11 +42,6 @@ class UserSeeder extends Seeder
             'username' => 'User.Beno',
             'email' => 'beno@test.com'
         ],$defaultValue));
-        $user4 = User::create(array_merge([
-            'name' => 'Super Admin',
-            'username' => 'Super.Admin',
-            'email' => 'admin@test.com'
-        ],$defaultValue));
 
         $role = Role::create(['name' => 'Admin']);
         $role = Role::create(['name' => 'Officer']);
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
         $user1->assignRole('Officer');
         $user2->assignRole('Officer');
         $user3->assignRole('User');
-        $user4->assignRole('Admin');
+        $admins->assignRole('Admin');
 
 
         

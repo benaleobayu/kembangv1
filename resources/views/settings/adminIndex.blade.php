@@ -18,6 +18,8 @@
                 </div>
             </form>
         </div>
+        
+        @if ($data->isNotEmpty())
         <table cellpadding=10 cellspacing=0 border=1 class="w-100">
             <thead>
                 <tr>
@@ -32,16 +34,41 @@
             <tbody>
                 @php
                     $nomor = 1 + ($data->currentPage() - 1) * $data->perPage();
+                    $afternomor = 2 + ($data->currentPage() -1 ) * $data->perPage();
                 @endphp
-                @foreach ($data as $d)
+                   <tr>
+                    <td class="text-top">{{ $nomor++ }}</td>
+                    <td class="text-top">{{ $data[0]->name }}</td>
+                    <td class="text-top">{{ $data[0]->username }}</td>
+                    <td class="text-top">{{ $data[0]->email }}</td>
+                    <td class="text-top">{{ $data[0]->roles[0]->name }}</td>
+                    <td class="text-top" style="white-space: nowrap">
+                        <button class="badge border-0 p-2 bg-info"
+                            onclick="window.location='{{ url('/admin/' . $data[0]->id) }}'">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="badge border-0 p-2 bg-warning"
+                            onclick="window.location='{{ url('/admin/' . $data[0]->id . '/edit') }}'">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <form action="/admin/{{ $data[0]->id }}" method="post" class="d-inline">
+                            @method('delete')
+                            @csrf
+                            <button class="badge border-0 p-2 bg-danger" onclick="return confirm('User akan dihapus?')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                @foreach ($data->skip(1) as $d)
                     <tr>
                         <td class="text-top">{{ $nomor++ }}</td>
-                        {{ $d->phone }}</td>
                         <td class="text-top">{{ $d->name }}</td>
                         <td class="text-top">{{ $d->username }}</td>
                         <td class="text-top">{{ $d->email }}</td>
                         <td class="text-top">{{ $d->roles[0]->name }}</td>
                         <td class="text-top" style="white-space: nowrap">
+                            @role('Admin')
                             <button class="badge border-0 p-2 bg-info"
                                 onclick="window.location='{{ url('/admin/' . $d->id) }}'">
                                 <i class="bi bi-eye"></i>
@@ -57,12 +84,14 @@
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>
+                            @endrole
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
         {{ $data->links() }}
+        @endif
 
         <div class="col-6">
 

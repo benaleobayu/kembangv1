@@ -23,14 +23,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         
-        //
+        // Gate::define('Read_Customers', function ($user) {
+        //     return $user->hasPermissionTo('Read_Customers');
+        // });
 
-       // Implicitly grant "Super-Admin" role all permission checks using can()
-       Gate::before(function ($user, $ability) {
-           if ($user->hasRole('Admin')) {
-               return true;
-           }
-       });
+       Gate::after(function ($user, $ability) {
+        return $user->hasRole('Admin'); // note this returns boolean
+     });
 
     }
 }

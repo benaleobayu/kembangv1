@@ -22,6 +22,7 @@
             <div class="col-sm-6">
 
 
+                @if ($spell->isNotEmpty())
                 <table cellpadding=10 cellspacing=0 border=1 class="w-100">
                     <thead>
                         <tr>
@@ -32,12 +33,32 @@
                     </thead>
                     <tbody>
                         @php
-                            $nomor = 1 + ($data->currentPage() - 1) * $data->perPage();
+                            $nomor = 1 + ($spell->currentPage() - 1) * $spell->perPage();
+                            $afternomor = 2 + ($spell->currentPage() -1 ) * $spell->perPage();
                         @endphp
-                        @foreach ($data as $d)
+                        <tr>
+                            <td class="text-top">{{ $nomor }}</td>
+                            <td class="text-top">{{ $spell[0]->name }}</td>
+                            <td class="text-top" style="white-space: nowrap">
+                                @role('Admin')
+                                <button class="badge border-0 p-2 bg-warning"
+                                    onclick="window.location='{{ url('/roles/' . $spell[0]->id . '/edit') }}'" >
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <form action="/roles/{{ $spell[0]->id }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="badge border-0 p-2 bg-danger"
+                                        onclick="return confirm('User akan dihapus?')" >
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                                @endrole
+                            </td>
+                        </tr>
+                        @foreach ($spell->skip(1) as $d)
                             <tr>
-                                <td class="text-top">{{ $nomor++ }}</td>
-                                {{ $d->phone }}</td>
+                                <td class="text-top">{{ $afternomor++ }}</td>
                                 <td class="text-top">{{ $d->name }}</td>
                                 <td class="text-top" style="white-space: nowrap">
                                     <button class="badge border-0 p-2 bg-warning"
@@ -57,8 +78,8 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $data->links() }}
-
+                {{ $spell->links() }}
+            @endif
 
             </div>
         </div>

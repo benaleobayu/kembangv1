@@ -9,7 +9,9 @@
         <div class="searching-box">
             <form action="/orders" method="get">
                 <div class="input-group w-25 mb-3 ms-auto">
-                    <input type="text" class="form-control" placeholder="Cari ..." aria-label="Cari"
+                    <button onclick="window.location='/orders'"  type="button" class="btn" rel="tooltip" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+
+                    <input type="text" class="form-control rounded-start" placeholder="Cari ..." aria-label="Cari"
                         aria-describedby="button-addon2" name="search" value="{{ $search }}">
                     <button class="btn btn-outline-secondary px-3" type="submit" id="button-addon2">Cari</button>
                 </div>

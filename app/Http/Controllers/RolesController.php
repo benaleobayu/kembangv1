@@ -22,11 +22,11 @@ class RolesController extends Controller
         if(!empty($search)){
             $query = Roles::where('name', 'like', '%' . $search . '%')->paginate(10)->withQueryString();
         }else{
-            $query = Roles::orderBy('name', 'asc')->paginate(10)->withQueryString();
+            $query = Roles::orderBy('id', 'asc')->paginate(10)->withQueryString();
         }
 
         return view('settings.adminRolesIndex',[
-            'data' => $query,
+            'spell' => $query,
             'search' => $search
         ]);
     }
@@ -34,9 +34,20 @@ class RolesController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Roles $roles)
     {
-        //
+        $finding = $roles->find($roles->id);
+        return view ('settings.adminRolesCreate',[
+            'spell' => $finding,
+            'readCustomers' => 'Read_Customers',
+            'createCustomers' => 'Create_Customers',
+            'editCustomers' => 'Edit_Customers',
+            'deleteCustomers' => 'Delete_Customers',
+            'readLangganan' => 'Read_Langganan',
+            'createLangganan' => 'Create_Langganan',
+            'editLangganan' => 'Edit_Langganan',
+            'deleteLangganan' => 'Delete_Langganan',
+        ]);
     }
 
     /**
@@ -44,7 +55,18 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $role = $roles->findOrFail($roles->id);
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'permissions' => 'required|array',
+        ]);
+
+        $validatedData['guard_name'] = 'web';
+        $role = Roles::create($validatedData);
+        $role->syncPermissions($validatedData['permissions']);
+
+
+        return redirect('/roles')->with('success', 'Roles berhasil dibuat');
     }
 
     /**
@@ -52,7 +74,7 @@ class RolesController extends Controller
      */
     public function show(Roles $roles, $id)
     {
-    //  
+        // 
     }
 
     /**
@@ -60,37 +82,41 @@ class RolesController extends Controller
      */
     public function edit(Roles $roles, $id)
     {   
-    //     $role = Role::findOrFail($id);
-    //     $permissions = Permission::findOrFail($id);
         $finding = $roles->find($id);
         return view ('settings.adminRolesEdit',[
             'spell' => $finding,
-            'readCustomers' => 'Read Customers',
-            'createCustomers' => 'Create Customers',
-            'editCustomers' => 'Edit Customers',
-            'deleteCustomers' => 'Delete Customers',
-            'readLangganan' => 'Read Langganan',
-            'createLangganan' => 'Create Langganan',
-            'editLangganan' => 'Edit Langganan',
-            'deleteLangganan' => 'Delete Langganan',
+            'read' => 'Read_',
+            'create' => 'Create_',
+            'edit' => 'Edit_',
+            'delete' => 'Delete_',
+            'Customers' => 'Customers',
+            'Langganan' => 'Langganan',
+            'DataRiders' => 'DataRiders',
+            'DataOrders' => 'DataOrders',
+            'PaymentRiders' => 'PaymentRiders',
+            'Invoices' => 'Invoice',
+            'Dokumentasi' => 'Dokumentasi',
+            'Admin' => 'Admin',
+            'Roles' => 'Roles',
+            'Regency' => 'Regency',
+            'Flower' => 'Flower'
+
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Roles $roles, $id)
+    public function update(Request $request, Roles $role)
     {
-        $role = $roles->findOrFail($id);
         $validatedData = $request->validate([
             'name' => 'required',
+            'permissions' => 'required|array',
+            'access' => 'array'
         ]);
 
         $validatedData['guard_name'] = 'web';
-        $permissions = $request->input('permissions', []);
-        $role->syncPermissions($permissions);
-
-        Roles::where('id', $id)->update($validatedData);
+        $role->syncPermissions($validatedData['permissions']);
 
         return redirect('/roles')->with('success', 'Roles berhasil diubah');
     }
@@ -98,8 +124,10 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Roles $roles)
+    public function destroy(Roles $roles, $id)
     {
-        //
+        Roles::destroy($id);
+
+        return redirect('/roles')->with('success', 'Roles berhasil dihapus');
     }
 }

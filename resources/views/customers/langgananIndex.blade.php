@@ -2,14 +2,18 @@
 
 @section('content')
     <div class="table p-2 mt-5">
+        @can('Create_Langganan')
         <div class="fiturbutton p-3 d-flex flex-row-reverse">
             <button class="btn btn-primary" onclick="window.location='{{ url('/subscribers/create') }}'"><i
                     class="bi bi-plus-lg"></i><span class="me-2">Tambah</span> </button>
         </div>
+        @endcan
         <div class="searching-box">
             <form action="/subscribers" method="get">
                 <div class="input-group w-25 mb-3 ms-auto">
-                    <input type="text" class="form-control" placeholder="Cari ..." aria-label="Cari"
+                    <button onclick="window.location='/subscribers'"  type="button" class="btn" rel="tooltip" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+
+                    <input type="text" class="form-control rounded-start" placeholder="Cari ..." aria-label="Cari"
                         aria-describedby="button-addon2" name="search" value="{{ $search }}">
                     <button class="btn btn-outline-secondary px-3" type="submit" id="button-addon2">Cari</button>
                 </div>
@@ -36,8 +40,7 @@
                 @foreach ($data as $d)
                     <tr>
                         <td class="text-top">{{ $nomor++ }}</td>
-                        <td>{{ $d->name }} <hr> {{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br> Telp :
-                            {{ $d->phone }}</td>
+                        <td>{{ $d->name }} <hr> {{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br> Telp : {{ $d->phone }}</td>
                         <td class="text-top">{{ $d->flowers->name }}</td>
                         <td class="text-top text-center">{{ $d->total }}</td>
                         <td class="text-top">{{ $d->regencies->name }}</td>
@@ -48,10 +51,13 @@
                             <button class="badge border-0 p-2 bg-info" onclick="window.location='{{ url('/subscribers/' . $d->id) }}'">
                                 <i class="bi bi-eye"></i>
                             </button>
+                            @can('Edit_Langganan')
                             <button class="badge border-0 p-2 bg-warning"
                                 onclick="window.location='{{ url('/subscribers/' . $d->id . '/edit') }}'">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
+                            @endcan
+                            @can('Delete_Langganan')
                             <form action="/subscribers/{{ $d->id }}" method="post" class="d-inline">
                                 @method('delete')
                                 @csrf
@@ -59,6 +65,7 @@
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

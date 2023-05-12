@@ -2,14 +2,19 @@
 
 @section('content')
         <div class="table p-2 mt-5">
+            @can('Create_Customers')
             <div class="fiturbutton p-3 d-flex flex-row-reverse">
                 <button class="btn btn-primary" onclick="window.location='{{ url('/customers/create') }}'"><i
                         class="bi bi-plus-lg"></i><span class="me-2">Tambah</span> </button>
             </div>
+            @endcan
             <div class="searching-box">
                 <form action="/customers" method="get">
                     <div class="input-group w-25 mb-3 ms-auto">
-                        <input type="text" class="form-control" placeholder="Cari ..." aria-label="Cari Riders"
+
+                        <button onclick="window.location='/customers'"  type="button" class="btn" rel="tooltip" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+
+                        <input type="text" class="form-control rounded-start" placeholder="Cari ..." aria-label="Cari Riders"
                             aria-describedby="button-addon2" name="search" value="{{ $search }}">
                         <button class="btn btn-outline-secondary px-3" type="submit" id="button-addon2">Cari</button>
                     </div>
@@ -46,10 +51,13 @@
                                 <button class="badge border-0 p-2 bg-info" onclick="window.location='{{ url('/customers/' . $d->id) }}'">
                                     <i class="bi bi-eye"></i>
                                 </button>
+                                @can('Edit_Customers')
                                 <button class="badge border-0 p-2 bg-warning"
                                     onclick="window.location='{{ url('/customers/' . $d->id . '/edit') }}'">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
+                                @endcan
+                                @can('Delete_Customers')
                                 <form action="/customers/{{ $d->id }}" method="post" class="d-inline">
                                     @method('delete')
                                     @csrf
@@ -57,6 +65,7 @@
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

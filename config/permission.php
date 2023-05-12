@@ -32,7 +32,7 @@ return [
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
-         * table should be used to retrieve your roles. We have chosen a basic
+         * table should be used to. retrieve your roles. We have chosen a basic
          * default value but you may easily change it to any table you like.
          */
 
@@ -149,6 +149,8 @@ return [
          */
 
         'key' => 'spatie.permission.cache',
+
+        'model_key' => 'name',
 
         /*
          * You may optionally indicate a specific cache driver to use for permission and

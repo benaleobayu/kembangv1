@@ -18,9 +18,9 @@ use App\Http\Controllers\UserRolesController;
 
 
 
-Route::middleware('auth')->group(function () {
-    Route::resource('/customers', CustomersController::class)->middleware("can: 'Read Customers'");
-    Route::resource('/subscribers', LanggananController::class);
+Route::middleware('auth:web')->group(function () {
+    Route::resource('/customers', CustomersController::class)->middleware('can:Read_Customers');
+    Route::resource('/subscribers', LanggananController::class)->middleware('can:Read_Langganan');
     Route::resource('/riders', RiderController::class);
 
     Route::resource('/orders', OrdersController::class);
@@ -38,5 +38,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/logout', [LoginController::class, 'logout']);
 });
+
 
 Auth::routes();
