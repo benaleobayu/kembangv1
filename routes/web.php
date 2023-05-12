@@ -12,32 +12,27 @@ use App\Http\Controllers\RegencyController;
 use App\Http\Controllers\RiderController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserRolesController;
-
-
-
 
 
 Route::middleware('auth:web')->group(function () {
-    Route::resource('/customers', CustomersController::class)->middleware('can:Read_Customers');
-    Route::resource('/subscribers', LanggananController::class)->middleware('can:Read_Langganan');
-    Route::resource('/riders', RiderController::class);
-
-    Route::resource('/orders', OrdersController::class);
-
-    Route::resource('/admin', UserController::class);
-    Route::resource('/roles', RolesController::class);
-    Route::resource('/regencies', RegencyController::class);
-    Route::resource('/flowers', FlowersController::class);
-
-
     Route::get('/', function(){
         Return view('index');
     });
     Route::get('/home', [HomeController::class, 'index'])->name('cms');
 
+    Route::resource('/customers', CustomersController::class)->middleware('can:Read_Customers');
+    Route::resource('/subscribers', LanggananController::class)->middleware('can:Read_Langganan');
+    Route::resource('/riders', RiderController::class)->middleware('can:Read_DataRiders');
+
+    Route::resource('/orders', OrdersController::class)->middleware('can:Read_DataOrders');
+
+    Route::resource('/admin', UserController::class)->middleware('can:Read_Admin');
+    Route::resource('/roles', RolesController::class)->middleware('can:Read_Roles');
+    Route::resource('/regencies', RegencyController::class)->middleware('can:Read_Regency');
+    Route::resource('/flowers', FlowersController::class)->middleware('can:Read_Flower');
+
     Route::get('/logout', [LoginController::class, 'logout']);
 });
 
 
-Auth::routes();
+Auth::routes(['register' => false]);

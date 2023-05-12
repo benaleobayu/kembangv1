@@ -112,16 +112,12 @@
                                         <label for="image">Hasil Pengerjaan</label>
                                         <input type="hidden" name="oldImage" value="{{ $data->image }}">
                                         @if ($data->image)
-                                            <img src="{{ asset('storage/' . $data->image) }}" alt=""
-                                                class="img-preview img-fluid col-sm-5 mb-3 d-block"
-                                                style="max-height: 400px">
+                                            <img src="{{ asset('storage/' . $data->image) }}" alt="" class="img-preview img-fluid  mb-3 d-block" style="max-height: 400px; border: 1px solid darkgrey; border-radius: 5px">
                                         @else
                                             <img src="" alt=""
-                                                class="img-preview img-fluid col-sm-5 mb-3 d-block"
-                                                style="max-height: 400px">
+                                                class="img-preview img-fluid mb-3 d-block" style="max-height: 400px">
                                         @endif
-                                        <input type="file" class="form-control  @error('image') is-invalid @enderror"
-                                            name="image" id="image" onchange="previewImage()">
+                                        <input type="file" class="form-control  @error('image') is-invalid @enderror" name="image" id="image" onchange="previewImage()">
                                         @error('image')
                                             <div class="invalid-feedback">
                                                 {{ $message }}

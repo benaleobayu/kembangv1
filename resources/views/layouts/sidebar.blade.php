@@ -58,7 +58,7 @@
                     @endcan
                     @can('Read_Dokumentasi')
                     <li><a href="/documentation"
-                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('documentation*') ? 'active' : '' }}">Dokumentasisss
+                            class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('documentation*') ? 'active' : '' }}">Dokumentasi
                             Pesanan</a></li>
                     @endcan
                 </ul>
