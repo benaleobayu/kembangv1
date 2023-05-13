@@ -9,7 +9,7 @@
             data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
             Customers Center
         </button>
-        <div class="collapse  {{ Request::is('customers*', 'subscribers*') ? 'show' : '' }}" id="home-collapse">
+        <div class="collapse  {{ Request::is('customers*', 'subscribers*', 'daysubscribs*') ? 'show' : '' }}" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                 @can('Read_Customers')
                 <li>
@@ -17,11 +17,18 @@
                 </li>    
                 @endcan
                 
-                @if (auth()->user()->can('Read_Langganan'))
+                @can('Read_Langganan')
                     <li>
-                        <a href="/subscribers" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('subscribers*') ? 'active' : '' }}">Data Langganan</a>
+                        <a href="/subscribers" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('subscribers*') ? 'active' : '' }}">All Langganan</a>
                     </li>
-                    @endif
+                @endcan
+                
+                @can('Read_Langganan')
+                    <li>
+                        <a href="/daysubscribs" class="link-body-emphasis d-inline-flex text-decoration-none rounded {{ Request::is('daysubscribs*') ? 'active' : '' }}">By Date Langganan</a>
+                    </li>
+                @endcan
+
                 </ul>
             </div>
         </li>

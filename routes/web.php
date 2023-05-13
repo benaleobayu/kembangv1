@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\DayController;
 use App\Http\Controllers\FlowersController;
 use App\Http\Controllers\LanggananController;
 use App\Http\Controllers\OrdersController;
@@ -22,6 +23,8 @@ Route::middleware('auth:web')->group(function () {
 
     Route::resource('/customers', CustomersController::class)->middleware('can:Read_Customers');
     Route::resource('/subscribers', LanggananController::class)->middleware('can:Read_Langganan');
+    Route::resource('/daysubscribs', DayController::class)->parameters(['daysubscribs' => 'slug'])->middleware('can:Read_Langganan');
+    // Route::get('/daysubscribs/{slug}', [DayController::class, 'show'])->middleware('can:Read_Langganan');
     Route::resource('/riders', RiderController::class)->middleware('can:Read_DataRiders');
 
     Route::resource('/orders', OrdersController::class)->middleware('can:Read_DataOrders');

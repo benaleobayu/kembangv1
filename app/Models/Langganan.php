@@ -18,7 +18,7 @@ class Langganan extends Model
         'phone',
         'flowers_id',
         'notes',
-        'day',
+        'day_id',
         'pic'
     ];
     public function regencies(): BelongsTo
@@ -29,4 +29,10 @@ class Langganan extends Model
     {
         return $this->belongsTo(Flowers::class);
     }
+    
+    public function day(): BelongsTo
+    {
+        return $this->belongsTo(Day::class);
+    }
+
 }

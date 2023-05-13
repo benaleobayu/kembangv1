@@ -4,12 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Flowers;
-use App\Models\User;
 use App\Models\Rider;
 use App\Models\Langganan;
 use App\Models\Orders;
-use App\Models\UserRoles;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -36,6 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FlowersSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(PermissionSeeder::class);
+        $this->call(DaySeeder::class);
      
     }
 }

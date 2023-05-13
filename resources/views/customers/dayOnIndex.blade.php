@@ -4,14 +4,14 @@
     <div class="table p-2 mt-5">
         @can('Create_Langganan')
         <div class="fiturbutton p-3 d-flex flex-row-reverse">
-            <button class="btn btn-primary" onclick="window.location='{{ url('/subscribers/create') }}'"><i
+            <button class="btn btn-primary" onclick="window.location='{{ url('/daysubscribs/create') }}'"><i
                     class="bi bi-plus-lg"></i><span class="me-2">Tambah</span> </button>
         </div>
         @endcan
         <div class="searching-box">
-            <form action="/subscribers" method="get">
+            <form action="/daysubscribs/{{ $slug }}" method="get">
                 <div class="input-group w-25 mb-3 ms-auto">
-                    <button onclick="window.location='/subscribers'"  type="button" class="btn" rel="tooltip" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button onclick="window.location='/daysubscribs/{{ $slug }}'"  type="button" class="btn" rel="tooltip" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
 
                     <input type="text" class="form-control rounded-start" placeholder="Cari ..." aria-label="Cari"
                         aria-describedby="button-addon2" name="search" value="{{ $search }}">
@@ -50,17 +50,17 @@
                     <td class="text-top">{{ $d->day->name }}</td>
                     <td class="text-top">{{ $d->pic }}</td>
                     <td class="text-top" style="white-space: nowrap">
-                        <button class="badge border-0 p-2 bg-info" onclick="window.location='{{ url('/subscribers/' . $d->id) }}'">
+                        <button class="badge border-0 p-2 bg-info" onclick="window.location='{{ url('/daysubscribs/' . $d->id) }}'">
                             <i class="bi bi-eye"></i>
                         </button>
                         @can('Edit_Langganan')
                         <button class="badge border-0 p-2 bg-warning"
-                            onclick="window.location='{{ url('/subscribers/' . $d->id . '/edit') }}'">
+                            onclick="window.location='{{ url('/daysubscribs/' . $d->id . '/edit') }}'">
                             <i class="bi bi-pencil-square"></i>
                         </button>
                         @endcan
                         @can('Delete_Langganan')
-                        <form action="/subscribers/{{ $d->id }}" method="post" class="d-inline">
+                        <form action="/daysubscribs/{{ $d->id }}" method="post" class="d-inline">
                             @method('delete')
                             @csrf
                             <button class="badge border-0 p-2 bg-danger" onclick="return confirm('User akan dihapus?')">

@@ -25,7 +25,7 @@ class LanggananFactory extends Factory
             'flowers_id' => mt_rand(1,11),
             'total' => mt_rand(1,4),
             'notes' => Str::random(15),
-            'day' => 'Senin',
+            'day_id' => mt_rand(1,7),
             'pic' => 'Priska'
         ];
     }
