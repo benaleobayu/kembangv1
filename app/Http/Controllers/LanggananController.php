@@ -6,7 +6,6 @@ use App\Models\Langganan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLanggananRequest;
-use App\Http\Requests\UpdateLanggananRequest;
 use App\Models\Flowers;
 use App\Models\Regency;
 
@@ -22,6 +21,7 @@ class LanggananController extends Controller
         if (!empty($search)) {
             $query = Langganan::where('name', 'like', '%' . $search . '%')
                 ->orWhere('address', 'like', '%' . $search . '%')
+                ->orWhere('')
                 ->paginate(10)->withQueryString();
         } else {
             $query = Langganan::orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
