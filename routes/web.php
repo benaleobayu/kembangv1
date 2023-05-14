@@ -23,8 +23,8 @@ Route::middleware('auth:web')->group(function () {
 
     Route::resource('/customers', CustomersController::class)->middleware('can:Read_Customers');
     Route::resource('/subscribers', LanggananController::class)->middleware('can:Read_Langganan');
+    Route::get('/subscriberss', 'LanggananController@search')->name('subscriberss');
     Route::resource('/daysubscribs', DayController::class)->parameters(['daysubscribs' => 'slug'])->middleware('can:Read_Langganan');
-    // Route::get('/daysubscribs/{slug}', [DayController::class, 'show'])->middleware('can:Read_Langganan');
     Route::resource('/riders', RiderController::class)->middleware('can:Read_DataRiders');
 
     Route::resource('/orders', OrdersController::class)->middleware('can:Read_DataOrders');

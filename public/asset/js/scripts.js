@@ -38,3 +38,10 @@ function previewImage()
             checkboxes[i].checked = this.checked;
         }
     };
+
+
+// search dropdown name
+
+$(document).ready(function() {
+    $('#langgananName').select2();
+});

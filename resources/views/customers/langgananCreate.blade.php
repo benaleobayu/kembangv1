@@ -18,8 +18,8 @@
                         @csrf
                         <div class="row">
                             <div class="col">
-                                <label class="py-1" for="name">Nama</label>
-                                <select name="name" id="name" class="form-select py-1 mt-1" required>
+                                <label class="py-1" for="langgananName">Nama</label>
+                                <select name="name" id="langgananName" class="form-select py-1 mt-1" required>
                                     <option>Pilih Nama</option>
                                     @foreach ($data as $row)
                                         @if (old('name') == $row->id)
@@ -38,7 +38,7 @@
                             <div class="col">
                                 <label class="py-1" for="phone">Nomor Handphone</label>
                                 <input name="phone" class="form-control py-1 @error('phone') is-invalid @enderror"
-                                    type="text" value="{{ old('phone') }}" >
+                                    type="text" value="{{ old('phone') }}">
                                 @error('phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -47,12 +47,9 @@
                             </div>
                         </div>
 
-
-
-
                         <label class="py-1" for="address">Alamat</label>
                         <textarea class="form-control @error('address') is-invalid @enderror" name="address" id="address" cols="30"
-                            rows="3" ></textarea>
+                            rows="3"></textarea>
                         @error('address')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -60,7 +57,7 @@
                         @enderror
 
                         <label class="py-1" for="regencies_id">Daerah</label>
-                        <select name="regencies_id" id="regencies_id" class="form-select" >
+                        <select name="regencies_id" id="regencies_id" class="form-select">
                             <option>Pilih Daerah</option>
                             @foreach ($regency as $row)
                                 @if (old('regencies_id') == $row->id)
@@ -106,13 +103,13 @@
                                 <select name="day_id" id="day_id" class="form-select" required>
                                     <option value="">Pilih ...</option>
                                     @foreach ($day as $row)
-                                    @if (old('day_id') == $row->id)
-                                        <option value="{{ $row->id }}" selected>{{ $row->name }}
-                                        </option>
-                                    @else
-                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                    @endif
-                                @endforeach
+                                        @if (old('day_id') == $row->id)
+                                            <option value="{{ $row->id }}" selected>{{ $row->name }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
 
                                 <label class="py-1" for="notes">Catatan</label>

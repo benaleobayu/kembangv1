@@ -129,4 +129,13 @@ class LanggananController extends Controller
     {
         //
     }
+
+    public function search(Request $request)
+{
+    $data = Customers::where('name', 'like', '%'.$request->q.'%')->paginate(10);
+
+    return response()->json($data);
+}
+    
+    
 }
