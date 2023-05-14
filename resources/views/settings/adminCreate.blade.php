@@ -63,11 +63,11 @@
                         </div>
 
 
-                        <label class="py-1" for="roles_id">roles_id</label>
-                        <select name="roles_id" id="roles_id" class="form-select" required>
+                        <label class="py-1" for="roles">Roles</label>
+                        <select name="roles" id="roles" class="form-select" required>
                             <option>Pilih Roles</option>
                             @foreach ($roles as $row)
-                                @if (old('roles_id') == $row->id)
+                                @if (old('roles') == $row->id)
                                     <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
                                 @else
                                     <option value="{{ $row->id }}">{{ $row->name }}</option>

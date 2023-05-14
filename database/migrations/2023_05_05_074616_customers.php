@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->foreignId('regencies_id')->nullable();
             $table->string('phone')->nullable();
-            $table->string('interest')->nullable();
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

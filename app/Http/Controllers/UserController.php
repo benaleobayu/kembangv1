@@ -42,6 +42,7 @@ class UserController extends Controller
     public function create()
     {
         return view('settings.adminCreate', [
+            'roles' => Roles::all()
         ]);
     }
 

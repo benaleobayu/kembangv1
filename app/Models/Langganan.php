@@ -34,5 +34,11 @@ class Langganan extends Model
     {
         return $this->belongsTo(Day::class);
     }
+    
+    public function customers(): BelongsTo
+    {
+        return $this->belongsTo(Customers::class);
+    }
+    
 
 }
