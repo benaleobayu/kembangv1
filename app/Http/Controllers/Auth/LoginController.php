@@ -44,4 +44,27 @@ class LoginController extends Controller
         Auth::logout();
         return redirect('/login');
       }
+
+      public function username()
+      {
+          $field = 'username'; // ganti dengan field yang Anda inginkan
+      
+          return $field;
+      }
+      
+      protected function validateLogin(Request $request)
+      {
+          $request->validate([
+              $this->username() => 'required|string',
+              'password' => 'required|string',
+          ]);
+      }
+      
+      protected function credentials(Request $request)
+      {
+          return [
+              $this->username() => $request->{$this->username()},
+              'password' => $request->password,
+          ];
+      }
 }

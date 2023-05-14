@@ -7,6 +7,7 @@ use App\Models\UserRoles;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Roles;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -84,6 +85,7 @@ class UserController extends Controller
         $data = $user->find($id);
         return view('settings.adminEdit', [
             'data' => $data,
+            'roles' => Roles::all()
         ]);
     }
 
@@ -104,7 +106,6 @@ class UserController extends Controller
             ],
             'email' => 'required|email',
             'password' => 'max:16',
-            'roles_id' => 'required'
         ]);
         if ($data->password) {
             $validateData['password'] = Hash::make($request->input('password'));
@@ -113,8 +114,11 @@ class UserController extends Controller
         }
 
         $validateData['remember_token'] = Str::random(16);
-
+        
         User::where('id', $id)->update($validateData);
+
+        $roles = $request->input('roles', []);
+        $data->syncRoles($roles);
 
         return redirect('/admin')->with('success', 'data berhasil diupdate !');
     }
