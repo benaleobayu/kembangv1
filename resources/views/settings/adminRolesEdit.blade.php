@@ -373,4 +373,15 @@
                 </div>
             </div>
         </div>
+        // check all di permission roles
+        <script>
+            var checkAll = document.getElementById('check-all');
+            var checkboxes = document.getElementsByName('permissions[]');
+        
+            checkAll.onclick = function() {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].checked = this.checked;
+                }
+            };
+        </script>
     @endsection

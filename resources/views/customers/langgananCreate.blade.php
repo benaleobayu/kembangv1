@@ -18,8 +18,8 @@
                         @csrf
                         <div class="row">
                             <div class="col">
-                                <label class="py-1" for="langgananName">Nama</label>
-                                <select name="name" id="langgananName" class="form-select py-1 mt-1" required>
+                                <label class="py-1" for="selectName">Nama</label>
+                                <select name="name" id="selectName" class="form-select py-1 mt-1" required>
                                     <option>Pilih Nama</option>
                                     @foreach ($data as $row)
                                         @if (old('name') == $row->id)

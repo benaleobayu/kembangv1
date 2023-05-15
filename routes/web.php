@@ -15,7 +15,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
 
 
-Route::middleware('auth:web')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/', function(){
         Return view('index');
     });
@@ -29,12 +29,16 @@ Route::middleware('auth:web')->group(function () {
 
     Route::resource('/orders', OrdersController::class)->middleware('can:Read_DataOrders');
 
-    Route::resource('/admin', UserController::class)->middleware('can:Read_Admin');
-    Route::resource('/roles', RolesController::class)->middleware('can:Read_Roles');
+
     Route::resource('/regencies', RegencyController::class)->middleware('can:Read_Regency');
     Route::resource('/flowers', FlowersController::class)->middleware('can:Read_Flower');
 
     Route::get('/logout', [LoginController::class, 'logout']);
+});
+
+Route::middleware('auth')->group(function(){
+    Route::resource('/admin', UserController::class)->middleware('can:Read_Admin');
+    Route::resource('/roles', RolesController::class)->middleware('can:Read_Roles');
 });
 
 

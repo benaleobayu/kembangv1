@@ -31,7 +31,9 @@ class LanggananController extends Controller
 
         return view('customers.langgananIndex', [
             'data' => $query,
-            'search' => $search
+            'search' => $search,
+            'dataName' => Customers::orderBy('name', 'asc')->get(),
+
         ]);
     }
 
