@@ -39,14 +39,21 @@ class RolesController extends Controller
         $finding = $roles->find($roles->id);
         return view ('settings.adminRolesCreate',[
             'spell' => $finding,
-            'readCustomers' => 'Read_Customers',
-            'createCustomers' => 'Create_Customers',
-            'editCustomers' => 'Edit_Customers',
-            'deleteCustomers' => 'Delete_Customers',
-            'readLangganan' => 'Read_Langganan',
-            'createLangganan' => 'Create_Langganan',
-            'editLangganan' => 'Edit_Langganan',
-            'deleteLangganan' => 'Delete_Langganan',
+            'read' => 'Read_',
+            'create' => 'Create_',
+            'edit' => 'Edit_',
+            'delete' => 'Delete_',
+            'Customers' => 'Customers',
+            'Langganan' => 'Langganan',
+            'DataRiders' => 'DataRiders',
+            'DataOrders' => 'DataOrders',
+            'PaymentRiders' => 'PaymentRiders',
+            'Invoices' => 'Invoice',
+            'Dokumentasi' => 'Dokumentasi',
+            'Admin' => 'Admin',
+            'Roles' => 'Roles',
+            'Regency' => 'Regency',
+            'Flower' => 'Flower'
         ]);
     }
 
@@ -55,15 +62,16 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        // $role = $roles->findOrFail($roles->id);
         $validatedData = $request->validate([
             'name' => 'required',
             'permissions' => 'required|array',
+            
         ]);
 
         $validatedData['guard_name'] = 'web';
-        $role = Roles::create($validatedData);
-        $role->syncPermissions($validatedData['permissions']);
+        $data = Roles::create($validatedData);
+
+        $data->syncPermissions($validatedData['permissions']);
 
 
         return redirect('/roles')->with('success', 'Roles berhasil dibuat');
