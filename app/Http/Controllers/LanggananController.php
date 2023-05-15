@@ -127,17 +127,23 @@ class LanggananController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Langganan $langganan)
+    public function destroy(Langganan $langganan, $id)
     {
-        //
+        $deletedLangganan = Langganan::find($id);
+
+        if ($deletedLangganan) {
+            Langganan::destroy($id);
+            session()->flash('success', 'Data Langganan berhasil dihapus !');
+        } else {
+            session()->flash('error', 'Data Langganan tidak ditemukan !');
+        }
+
     }
 
     public function search(Request $request)
-{
-    $data = Customers::where('name', 'like', '%'.$request->q.'%')->paginate(10);
+    {
+        $data = Customers::where('name', 'like', '%' . $request->q . '%')->paginate(10);
 
-    return response()->json($data);
-}
-    
-    
+        return response()->json($data);
+    }
 }

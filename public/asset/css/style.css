@@ -23,3 +23,9 @@ td.text-top {
 stu {
     color: red;
 }
+
+/* select2 container */
+.select2-container{
+    display: block !important;
+    z-index: 1111 !important;
+}

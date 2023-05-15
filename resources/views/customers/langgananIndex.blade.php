@@ -9,7 +9,9 @@
             </div>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                data-bs-whatever="@mdo">Open modal for @mdo</button>
+                data-bs-whatever="">Tambah Data</button>
+
+            <button type="button" class="btn btn-primary" id="openModalBtn">Member</button>
         @endcan
         <div class="searching-box">
             <form action="/subscribers" method="get">
@@ -71,8 +73,7 @@
                                     <form action="/subscribers/{{ $d->id }}" method="post" class="d-inline">
                                         @method('delete')
                                         @csrf
-                                        <button class="badge border-0 p-2 bg-danger"
-                                            onclick="return confirm('User akan dihapus?')">
+                                        <button class="delete-btn badge border-0 p-2 bg-danger">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
@@ -95,30 +96,31 @@
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog bg-white">
+            <div class="modal-dialog bg-white modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Input Nama Pelanggan</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                <input type="text" class="form-control" id="recipient-name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Message:</label>
-                                <textarea class="form-control" id="message-text"></textarea>
-                            </div>
-                            <select class="js-example-basic-single" name="state" class="form-select">
-                                <option value="AL">Alabama</option>
-                                <option value="WY">Wyoming</option>
-                                <option value="WY">Wyoming</option>
-                                <option value="WY">Wyoming</option>
-                                <option value="WY">Wyoming</option>
-                                <option value="WY">Wyoming</option>
+                        <form action="/app" method="post">
+                            @csrf
+                            <label class="py-1 d-block" for="selectName">Nama</label>
+                            <select name="name" id="selectName" class="form-select py-1 mt-1" required>
+                                <option>Pilih Nama</option>
+                                @foreach ($data as $row)
+                                    @if (old('name') == $row->id)
+                                        <option value="{{ $row->name }}" selected>{{ $row->name }}</option>
+                                    @else
+                                        <option value="{{ $row->name }}">{{ $row->name }}</option>
+                                    @endif
+                                @endforeach
                             </select>
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -131,11 +133,107 @@
 
     </div>
     <script>
-        // In your Javascript (external .js resource or <script> tag)
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2();
+        // delete data
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    const url = this.parentNode.action;
+
+                    swal({
+                        title: 'Konfirmasi',
+                        text: 'Apakah Anda yakin ingin menghapus data ini?',
+                        icon: 'warning',
+                        buttons: ['Batal', 'Hapus'],
+                        dangerMode: true,
+                    }).then((confirmed) => {
+                        if (confirmed) {
+                            // Lakukan permintaan Ajax ke URL penghapusan
+                            axios.delete(url)
+                                .then(response => {
+                                    // Tindakan yang ingin Anda lakukan setelah penghapusan berhasil
+                                    // Contoh: Menampilkan notifikasi, memperbarui tampilan, dll.
+                                    swal('Berhasil', 'Data berhasil dihapus', 'success')
+                                        .then(() => {
+                                            location
+                                                .reload(); // Memuat ulang halaman setelah penghapusan berhasil
+                                        });
+                                })
+                                .catch(error => {
+                                    // Tindakan yang ingin Anda lakukan jika terjadi kesalahan
+                                    swal('Error',
+                                        'Terjadi kesalahan saat menghapus data',
+                                        'error');
+                                });
+                        }
+                    });
+                });
+            });
         });
 
+        //import data
+        document.addEventListener('DOMContentLoaded', function() {
+            const openModalBtn = document.getElementById('openModalBtn');
+
+            openModalBtn.addEventListener('click', function() {
+                swal({
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda ingin membuka modal?',
+                    icon: 'warning',
+                    buttons: ['No', 'Yes'],
+                    dangerMode: true,
+                }).then((confirmed) => {
+                    if (confirmed) {
+                        // Tindakan yang ingin Anda lakukan jika pengguna memilih "Yes"
+                        swal({
+                            title: 'Modal SweetAlert',
+                            content: {
+                                element: 'form',
+                                attributes: {
+                                    id: 'myForm',
+                                    action: '/subscribers/create',
+                                    method: 'PUT',
+                                },
+                            },
+                            buttons: {
+                                cancel: true,
+                                confirm: {
+                                    text: 'Submit',
+                                    closeModal: false,
+                                },
+                            },
+                        }).then((value) => {
+                            // Tindakan yang ingin Anda lakukan setelah pengguna menekan tombol "Submit"
+                            if (value) {S
+                                document.getElementById('myForm').submit();
+                            }
+                        });
+
+                        // Tambahkan form select ke dalam modal SweetAlert
+                        const form = document.getElementById('myForm');
+                        const select = document.createElement('select');
+                        select.name = 'selectOption';
+
+                        // Perulangan foreach untuk menambahkan opsi-opsi pada form select
+                        const options = {!! json_encode($dataName->pluck('name')) !!};
+                        options.forEach(option => {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = option;
+                            optionElement.text = option;
+                            select.appendChild(optionElement);
+                        });
+
+                        form.appendChild(select);
+                    }
+                });
+            });
+        });
+
+
+        //   open modal
         const exampleModal = document.getElementById('exampleModal')
         if (exampleModal) {
             exampleModal.addEventListener('show.bs.modal', event => {
