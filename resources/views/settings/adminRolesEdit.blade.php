@@ -373,7 +373,7 @@
                 </div>
             </div>
         </div>
-        // check all di permission roles
+        {{-- // check all di permission roles --}}
         <script>
             var checkAll = document.getElementById('check-all');
             var checkboxes = document.getElementsByName('permissions[]');

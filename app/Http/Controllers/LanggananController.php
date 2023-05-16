@@ -60,6 +60,7 @@ class LanggananController extends Controller
 
         // Ambil data dari tabel 1 berdasarkan nama atau nomor telephone
         $Customers = Customers::where('name', $request->input('name'))->first();
+        $Customers = Customers::where('name', $request->input('selectOption'))->first();
 
         // Masukkan data ke tabel 2
         $Langganan->name = $Customers->name;
@@ -67,9 +68,9 @@ class LanggananController extends Controller
         $Langganan->phone = $Customers->phone;
         $Langganan->notes = $Customers->notes;
         $Langganan->regencies_id = $Customers->regencies_id;
-        $Langganan->flowers_id = $request->input('flowers_id');
-        $Langganan->total = $request->input('total');
-        $Langganan->day_id = $request->input('day_id');
+        $Langganan->flowers_id = 1;
+        $Langganan->total = 1;
+        $Langganan->day_id = 1;
         $Langganan->pic = 'Priska';
 
         $Langganan->save();
@@ -97,7 +98,9 @@ class LanggananController extends Controller
         return view('customers.langgananEdit', [
             'data' => $data,
             'regency' => Regency::orderBy('name', 'asc')->get(),
-            'flowers' => Flowers::orderBy('name', 'asc')->get()
+            'flowers' => Flowers::orderBy('name', 'asc')->get(),
+            'day' => Day::orderBy('id', 'asc')->get(),
+
         ]);
     }
 

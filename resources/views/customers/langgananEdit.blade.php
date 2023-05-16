@@ -97,15 +97,15 @@
 
                                 <label class="py-1" for="day_id">Hari Langganan</label>
                                 <select name="day_id" id="day_id" class="form-select" required>
-                                    <option value="">Pilih ...</option>
+                                    <option value="" style="font-weight: 800"> Pilih ...</option>
                                     @foreach ($day as $row)
-                                    @if (old('day_id') == $row->id)
-                                        <option value="{{ $row->id }}" selected>{{ $row->name }}
-                                        </option>
-                                    @else
-                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                    @endif
-                                @endforeach
+                                        @if (old('day_id', $data->day->id) == $row->id)
+                                            <option value="{{ $row->id }}" selected>{{ $row->name }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
 
                                 <label class="py-1" for="notes">Catatan</label>
@@ -129,4 +129,5 @@
                 </div>
             </div>
         </div>
+    
     @endsection

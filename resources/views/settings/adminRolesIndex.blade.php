@@ -23,65 +23,67 @@
 
 
                 @if ($spell->isNotEmpty())
-                <table cellpadding=10 cellspacing=0 border=1 class="w-100">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Roles</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $nomor = 1 + ($spell->currentPage() - 1) * $spell->perPage();
-                            $afternomor = 2 + ($spell->currentPage() -1 ) * $spell->perPage();
-                        @endphp
-                        <tr>
-                            <td class="text-top">{{ $nomor }}</td>
-                            <td class="text-top">{{ $spell[0]->name }}</td>
-                            <td class="text-top" style="white-space: nowrap">
-                                @role('Admin')
-                                <button class="badge border-0 p-2 bg-warning"
-                                    onclick="window.location='{{ url('/roles/' . $spell[0]->id . '/edit') }}'" >
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <form action="/roles/{{ $spell[0]->id }}" method="post" class="d-inline">
-                                    @method('delete')
-                                    @csrf
-                                    <button class="badge border-0 p-2 bg-danger"
-                                        onclick="return confirm('User akan dihapus?')" >
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
-                                @endrole
-                            </td>
-                        </tr>
-                        @foreach ($spell->skip(1) as $d)
+                    <table cellpadding=10 cellspacing=0 border=1 class="w-100">
+                        <thead>
                             <tr>
-                                <td class="text-top">{{ $afternomor++ }}</td>
-                                <td class="text-top">{{ $d->name }}</td>
+                                <th>No</th>
+                                <th>Roles</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $nomor = 1 + ($spell->currentPage() - 1) * $spell->perPage();
+                                $afternomor = 2 + ($spell->currentPage() - 1) * $spell->perPage();
+                            @endphp
+                            <tr>
+                                <td class="text-top">{{ $nomor }}</td>
+                                <td class="text-top">{{ $spell[0]->name }}</td>
                                 <td class="text-top" style="white-space: nowrap">
-                                    <button class="badge border-0 p-2 bg-warning"
-                                        onclick="window.location='{{ url('/roles/' . $d->id . '/edit') }}'">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </button>
-                                    <form action="/roles/{{ $d->id }}" method="post" class="d-inline">
-                                        @method('delete')
-                                        @csrf
-                                        <button class="badge border-0 p-2 bg-danger"
-                                            onclick="return confirm('User akan dihapus?')">
-                                            <i class="bi bi-trash"></i>
+                                    @role('Admin')
+                                        <button class="badge border-0 p-2 bg-warning"
+                                            onclick="window.location='{{ url('/roles/' . $spell[0]->id . '/edit') }}'">
+                                            <i class="bi bi-pencil-square"></i>
                                         </button>
-                                    </form>
+                                        <form action="/roles/{{ $spell[0]->id }}" method="post" class="d-inline">
+                                            @method('delete')
+                                            @csrf
+                                            <button class="badge border-0 p-2 bg-danger"
+                                                onclick="return confirm('User akan dihapus?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endrole
                                 </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                {{ $spell->links() }}
-            @endif
+                            @foreach ($spell->skip(1) as $d)
+                                <tr>
+                                    <td class="text-top">{{ $afternomor++ }}</td>
+                                    <td class="text-top">{{ $d->name }}</td>
+                                    <td class="text-top" style="white-space: nowrap">
+                                        <button class="badge border-0 p-2 bg-warning"
+                                            onclick="window.location='{{ url('/roles/' . $d->id . '/edit') }}'">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <form action="/roles/{{ $d->id }}" method="post" class="d-inline">
+                                            @method('delete')
+                                            @csrf
+                                            <button class="delete-btn badge border-0 p-2 bg-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{ $spell->links() }}
+                @endif
 
             </div>
         </div>
     </div>
+    @push('alert_delete')
+        @include('layouts.sweetalert.alert-delete')
+    @endpush
 @endsection

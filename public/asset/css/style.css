@@ -27,5 +27,9 @@ stu {
 /* select2 container */
 .select2-container{
     display: block !important;
-    z-index: 1111 !important;
+    z-index: 111111 !important;
+}
+.swal-content__form{
+    display: flex;
+    justify-content: center;
 }

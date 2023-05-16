@@ -12,6 +12,7 @@
     <link href="/asset/css/style.css?v2" rel="stylesheet">
     {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
     <script src="/asset/js/jquery.js"></script>
+    
 
 
     <!-- Scripts -->
@@ -30,6 +31,8 @@
         @include('layouts.alert')
       
     </main>
+    @stack('alert_delete')
+    @stack('modal_selectName')
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="/asset/js/scripts.js"></script>

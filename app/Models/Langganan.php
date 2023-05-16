@@ -17,6 +17,7 @@ class Langganan extends Model
         'regencies_id',
         'phone',
         'flowers_id',
+        'total',
         'notes',
         'day_id',
         'pic'

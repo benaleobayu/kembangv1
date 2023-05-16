@@ -64,14 +64,14 @@ class RolesController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'permissions' => 'required|array',
+            // 'permissions' => 'required|array',
             
         ]);
 
         $validatedData['guard_name'] = 'web';
         $data = Roles::create($validatedData);
 
-        $data->syncPermissions($validatedData['permissions']);
+        // $data->syncPermissions($validatedData['permissions']);
 
 
         return redirect('/roles')->with('success', 'Roles berhasil dibuat');
@@ -115,16 +115,21 @@ class RolesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Roles $role)
+    public function update(Request $request, $id)
     {
+        $data = Roles::find($id);
         $validatedData = $request->validate([
             'name' => 'required',
-            'permissions' => 'required|array',
-            'access' => 'array'
+            // 'permissions' => 'required|array'
         ]);
 
         $validatedData['guard_name'] = 'web';
-        $role->syncPermissions($validatedData['permissions']);
+        $assign = Roles::where('id', $id)->update($validatedData);
+        // $assign->syncPermissions($validatedData['permissions']);
+
+        $permissions = $request->input('permissions', []);
+        $data->syncPermissions($permissions);
+
 
         return redirect('/roles')->with('success', 'Roles berhasil diubah');
     }
@@ -134,8 +139,13 @@ class RolesController extends Controller
      */
     public function destroy(Roles $roles, $id)
     {
-        Roles::destroy($id);
+        $deletedLangganan = Roles::find($id);
 
-        return redirect('/roles')->with('success', 'Roles berhasil dihapus');
+        if ($deletedLangganan) {
+            Roles::destroy($id);
+            session()->flash('success', 'Data Langganan berhasil dihapus !');
+        } else {
+            session()->flash('error', 'Data Langganan tidak ditemukan !');
+        }
     }
 }

@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout']);
 });
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth:web')->group(function(){
     Route::resource('/admin', UserController::class)->middleware('can:Read_Admin');
     Route::resource('/roles', RolesController::class)->middleware('can:Read_Roles');
 });
