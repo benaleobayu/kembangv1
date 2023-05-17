@@ -4,7 +4,7 @@
     <div class="container">
         <div class="top-zone mt-3">
             <nav class="breadcrumb">
-                <a class="breadcrumb-item text-decoration-none fs-5" href="/orders">Langganan</a>
+                <a class="breadcrumb-item text-decoration-none fs-5" href="/orders/">Langganan</a>
                 <span class="breadcrumb-item fs-5 active" aria-current="page">Edit</span>
             </nav>
             {{-- <div class="breadcrumbs mt-5 mb-0">
@@ -132,7 +132,7 @@
 
                         <button type="submit" class="btn btn-info my-3">Simpan</button>
                         <button type="button" class="btn btn-warning mx-3"
-                            onclick="window.location='{{ url('/orders') }}'">Kembali</button>
+                            onclick="window.location='{{ url('/orders/' . $slug) }}'">Kembali</button>
                     </form>
 
                 </div>

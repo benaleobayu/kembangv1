@@ -8,10 +8,10 @@
                         class="bi bi-plus-lg"></i><span class="me-2">Tambah</span> </button>
             </div>
         @endcan
-        <div class="row search-breadcrumbs">
-            <div class="col-8 d-flex">
-                <div class="flex-end">
-                    <form action="/orders/import" method="POST">
+        <div class="row search-breadcrumbs d-flex">
+            <div class="col d-flex">
+                <div class="flex-row">
+                    <form action="/orders/import" method="POST" id="import-form">
                         @csrf
                         <label for="day_id">Import Hari:</label>
                         <div class="input-group mb-3 ms-auto">
@@ -20,12 +20,12 @@
                                     <option value="{{ $day->id }}">{{ $day->name }}</option>
                                 @endforeach
                             </select>
-                            <button class="btn btn-primary rounded d-inline" type="submit">Import</button>
+                            <button class="import-btn btn btn-primary rounded d-inline" type="submit">Import</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="col-4 d-flex align-items-end flex-row-reverse">
+            <div class="col d-flex align-items-end flex-row-reverse">
                 <form action="/orders/{{ $slug }}" method="get">
                     <div class="input-group mb-3 ms-auto">
                         <button onclick="window.location='/orders/{{ $slug }}'" type="button" class="btn"
@@ -73,10 +73,7 @@
                             <td class="text-top">{{ $d->day->name }}</td>
                             <td class="text-top">{{ $d->pic }}</td>
                             <td class="text-top" style="white-space: nowrap">
-                                <button class="badge border-0 p-2 bg-info"
-                                    onclick="window.location='{{ url('/orders/' . $d->id) }}'">
-                                    <i class="bi bi-eye"></i>
-                                </button>
+                              
                                 @can('Edit_Langganan')
                                     <button class="badge border-0 p-2 bg-warning"
                                         onclick="window.location='{{ url('/orders/' . $d->id . '/edit') }}'">
@@ -112,4 +109,9 @@
     @push('alert_delete')
         @include('layouts.sweetalert.alert-delete')
     @endpush
+    
+    @push('alert_import')
+        @include('layouts.sweetalert.alert-import')
+    @endpush
+
 @endsection

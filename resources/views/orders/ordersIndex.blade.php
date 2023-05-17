@@ -34,7 +34,7 @@
                 @php
                     $nomor = 1 + ($data->currentPage() - 1) * $data->perPage();
                 @endphp
-                @foreach ($data->skip(1) as $d)
+                @foreach ($data as $d)
                 <tr>
                     <td class="text-top">{{ $nomor++ }}</td>
                     <td class="text-top">{{ $d->name }}</td>
@@ -50,10 +50,10 @@
                         </button>
                         @endcan
                         @can('Delete_Langganan')
-                        <form action="/orders/{{ $d->id }}" method="post" class="d-inline">
+                        <form action="/day/{{ $d->id }}" method="post" class="d-inline">
                             @method('delete')
                             @csrf
-                            <button class="badge border-0 p-2 bg-danger" onclick="return confirm('User akan dihapus?')">
+                            <button class="delete-btn badge border-0 p-2 bg-danger">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </form>
@@ -75,5 +75,7 @@
 
         
     </div>
-
+    @push('alert_delete')
+        @include('layouts.sweetalert.alert-delete')
+    @endpush
 @endsection

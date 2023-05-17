@@ -15,6 +15,13 @@ td {
 td.text-top {
     vertical-align: text-top;
 }
+@media only screen and (max-width:550px) {
+    .search-breadcrumbs{
+        display: flex;
+        flex-direction: row;
+    }    
+}
+
 
 .input-group-append {
     cursor: pointer;

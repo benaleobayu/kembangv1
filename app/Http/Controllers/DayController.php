@@ -16,9 +16,10 @@ class DayController extends Controller
 
         if(!empty($search)){
             $query = Day::where('name', 'like', '%' . $search . '%')
+                    ->whereBetween('id', [2,8])
                     ->orderBy('id', 'asc')->paginate(10)->withQueryString();
         }else{
-            $query = Day::orderBy('id', 'asc')->paginate(10)->withQueryString();
+            $query = Day::whereBetween('id', [2,8])->orderBy('id', 'asc')->paginate(10)->withQueryString();
         }
 
         return view('customers.dayIndex',[
@@ -32,9 +33,7 @@ class DayController extends Controller
      */
     public function create()
     {
-        return view ('customers.dayCreate',[
-            'onSlug' => 'daysubscribs'
-        ]);
+    //    
     }
 
     /**
@@ -109,35 +108,17 @@ class DayController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Day $day)
+    public function destroy(Day $day, $id)
     {
-        //
+        $deleted = Day::find($id);
+
+        if ($deleted) {
+            Day::destroy($id);
+            session()->flash('success', 'Data berhasil dihapus !');
+        } else {
+            session()->flash('error', 'Data tidak ditemukan !');
+        }
     }
 
-    public function EditOnOrder(Day $day, $id)
-    {
-        $data = $day->find($id);
-        return view('customers.dayEdit',[
-            'data' => $data,
-            'onSlug' => 'day'
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function UpdateOnOrder(Request $request, $id)
-    {
-        $validateData = $request->validate([
-            'name' => 'required',
-            'slug' => 'nullable',
-            'date' => 'nullable'
-        ]);
-
-        Day::where('id', $id)->update($validateData);
-
-        return redirect('/orders')->with('success', 'Data berhasil diubah !');
-    }
-
-   
+    
 }

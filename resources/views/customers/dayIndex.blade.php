@@ -24,7 +24,6 @@
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
-                    <th>Tanggal</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -38,7 +37,6 @@
                 <tr>
                     <td class="text-top">{{ $nomor++ }}</td>
                     <td class="text-top">{{ $d->name }}</td>
-                    <td class="text-top">{{ $d->date }}</td>
                     <td class="text-top" style="white-space: nowrap">
                         <button class="badge border-0 p-2 bg-info" onclick="window.location='{{ url('/daysubscribs/' . $d->slug) }}'">
                             <i class="bi bi-list"></i>Data

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DayController;
+use App\Http\Controllers\DayOnOrderController;
 use App\Http\Controllers\FlowersController;
 use App\Http\Controllers\LanggananController;
 use App\Http\Controllers\OrdersController;
@@ -27,10 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('/riders', RiderController::class)->middleware('can:Read_DataRiders');
 
     Route::resource('/orders', OrdersController::class)->parameters(['orders' => 'slug'])->middleware('can:Read_DataOrders');
+    Route::resource('/day', DayOnOrderController::class)->parameters(['day' => 'slug'])->middleware('can:Read_DataOrders');
     Route::get('/orders/import', [OrdersController::class, 'showImportForm']);
     Route::post('/orders/import', [OrdersController::class, 'importData']);
-    Route::get('/day/{slug}/edit', [DayController::class, 'EditOnOrder']);
-    Route::put('/day/{slug}', [DayController::class, 'UpdateOnOrder']);
+
 
 
     Route::resource('/regencies', RegencyController::class)->middleware('can:Read_Regency');

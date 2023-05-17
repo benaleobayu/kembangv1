@@ -18,28 +18,33 @@ class OrdersController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $search = $request->query('search');
+{
+    $search = $request->query('search');
 
-        if (!empty($search)) {
-            $query = Day::where('name', 'like', '%' . $search . '%')
-                ->orderBy('id', 'asc')->paginate(10)->withQueryString();
-        } else {
-            $query = Day::orderBy('id', 'asc')->paginate(10)->withQueryString();
-        }
-
-        return view('orders.ordersIndex', [
-            'data' => $query,
-            'search' => $search,
-        ]);
+    if (!empty($search)) {
+        $query = Day::where('name', 'like', '%' . $search . '%')
+            ->whereBetween('id', [2, 8])
+            ->orderBy('id', 'asc')->paginate(10)->withQueryString();
+    } else {
+        $query = Day::whereBetween('id', [2, 8])
+            ->orderBy('id', 'asc')->paginate(10)->withQueryString();
     }
+
+    return view('orders.ordersIndex', [
+        'data' => $query,
+        'search' => $search,
+    ]);
+}
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view ('customers.dayCreate',[
+            'onSlug' => 'daysubscribs',
+            'days' => Day::orderBy('id', 'asc')->get()
+        ]);
     }
 
     /**
@@ -55,7 +60,7 @@ class OrdersController extends Controller
      */
     public function show(Request $request, Day $day, $slug)
     {
-        $query = $day->where('slug', $slug)->firstOrFail()->orders();
+        $query = $day->where('slug', $slug)->firstOrFail()->orders()->orderBy('updated_at','desc');
 
         $search = $request->query('search');
         if ($search) {
@@ -83,13 +88,15 @@ class OrdersController extends Controller
      */
     public function edit(Orders $orders, $id)
     {
-
+        $day = $orders->day;
+        $slug = strtolower(str_replace(' ', '-', $day));
         $collect = $orders->find($id);
 
         return view('orders.ordersOnEdit', [
             'data' => $collect,
             'regency' => Regency::orderBy('name', 'asc')->get(),
-            'flowers' => Flowers::all()
+            'flowers' => Flowers::all(),
+            'slug' => $slug
         ]);
     }
 
@@ -98,6 +105,9 @@ class OrdersController extends Controller
      */
     public function update(Request $request, Orders $orders, $id)
     {
+        $customer = $orders->find($id);
+        $slug = Day::findOrFail($customer->day_id)->slug;
+
         $validateData = $request->validate([
             'name' => 'required',
             'address' => 'required|max:255',
@@ -109,7 +119,6 @@ class OrdersController extends Controller
             'date' => 'date',
             'image' => 'image|mimes:jpeg,jpg,png,bmp,gif,svg|file|max:10240'
         ]);
-
         if ($request->file('image')) {
             if ($request->oldImage) {
                 Storage::delete($request->oldImage);
@@ -121,7 +130,7 @@ class OrdersController extends Controller
 
         Orders::where('id', $id)->update($validateData);
 
-        return redirect('/orders')->with('success', 'Order berhasil diubah !');
+        return redirect('/orders/' . $slug)->with('success', 'Order berhasil diubah !');
     }
 
     /**
@@ -169,6 +178,11 @@ class OrdersController extends Controller
         }
 
         // Berhasil mengimpor data
-        return 'Data berhasil diimpor ke tabel orders.';
+        if ($langganans){
+            $order->save();
+            session()->flash('success', 'Data Langganan berhasil diimport !');
+        }else {
+            session()->flash('error', 'Data Langganan gagal diimport !');
+        }
     }
 }
