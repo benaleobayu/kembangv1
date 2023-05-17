@@ -56,11 +56,8 @@ class CustomersController extends Controller
             'address' => 'required',
             'regencies_id' => 'required',
             'phone' => 'required|min:3|numeric',
-            'interest' => 'max:255'
+            'notes' => 'max:255'
         ]);
-
-        $createUser['password'] = bcrypt('password');
-        $createUser['email'] = fake()->unique()->safeEmail();
 
         Customers::create($createUser);
         return redirect('/customers')->with('success', 'Data berhasil ditambahkan !');
@@ -107,7 +104,12 @@ class CustomersController extends Controller
 
     public function destroy(string $id)
     {
-        Customers::destroy($id);
-        return redirect('/customers')->with('success', 'User Berhasil dihapus !');
+        $delete = Customers::find($id);
+        if($delete){
+            Customers::destroy($id);
+            session()->flash('success', 'User Berhasil dihapus !');
+        }else{
+            session()->flash('error', 'User gagal dihapus !');
+        }
     }
 }

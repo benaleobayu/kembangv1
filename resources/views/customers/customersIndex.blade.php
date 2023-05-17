@@ -61,7 +61,7 @@
                                 <form action="/customers/{{ $d->id }}" method="post" class="d-inline">
                                     @method('delete')
                                     @csrf
-                                    <button class="badge border-0 p-2 bg-danger" onclick="return confirm('User akan dihapus?')">
+                                    <button class="delete-btn badge border-0 p-2 bg-danger">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
@@ -72,6 +72,8 @@
                 </tbody>
             </table>
             {{ $data->links() }}
-           
     </div>
+    @push('alert_delete')
+        @include('layouts.sweetalert.alert-delete')        
+    @endpush
 @endsection
