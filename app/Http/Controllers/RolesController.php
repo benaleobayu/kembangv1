@@ -36,9 +36,7 @@ class RolesController extends Controller
      */
     public function create(Roles $roles)
     {
-        $finding = $roles->find($roles->id);
         return view ('settings.adminRolesCreate',[
-            'spell' => $finding,
             'read' => 'Read_',
             'create' => 'Create_',
             'edit' => 'Edit_',
@@ -57,21 +55,18 @@ class RolesController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            // 'permissions' => 'required|array',
+            'permissions' => 'required|array',
             
         ]);
 
         $validatedData['guard_name'] = 'web';
-        $data = Roles::create($validatedData);
+        $role = Roles::create($validatedData);
 
-        // $data->syncPermissions($validatedData['permissions']);
+        $role->syncPermissions($validatedData['permissions']);
 
 
         return redirect('/roles')->with('success', 'Roles berhasil dibuat');
@@ -139,9 +134,9 @@ class RolesController extends Controller
      */
     public function destroy(Roles $roles, $id)
     {
-        $deletedLangganan = Roles::find($id);
+        $deleted = Roles::find($id);
 
-        if ($deletedLangganan) {
+        if ($deleted) {
             Roles::destroy($id);
             session()->flash('success', 'Data Langganan berhasil dihapus !');
         } else {

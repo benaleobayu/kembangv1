@@ -26,6 +26,7 @@ class OrdersFactory extends Factory
             'total' => mt_rand(1,4),
             'notes' => Str::random(15),
             'date' => fake()->date(),
+            'day_id' => mt_rand(1,8),
             'pic' => 'Priska'
         ];
     }

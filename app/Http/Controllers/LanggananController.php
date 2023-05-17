@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Langganan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreLanggananRequest;
 use App\Models\Customers;
 use App\Models\Day;
 use App\Models\Flowers;
@@ -140,7 +139,6 @@ class LanggananController extends Controller
         } else {
             session()->flash('error', 'Data Langganan tidak ditemukan !');
         }
-
     }
 
     public function search(Request $request)

@@ -7,6 +7,7 @@ use App\Models\Regency;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Customers;
+use App\Models\Orders;
 
 class CustomersController extends Controller
 {

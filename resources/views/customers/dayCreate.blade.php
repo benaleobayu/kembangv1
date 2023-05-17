@@ -7,21 +7,16 @@
                 <a class="breadcrumb-item text-decoration-none fs-5" href="/daysubscribs">By Date Langganan</a>
                 <span class="breadcrumb-item fs-5 active" aria-current="page">Edit</span>
             </nav>
-            {{-- <div class="breadcrumbs mt-5 mb-0">
-                <h4>
-                    {!! Breadcrumbs::render('daysubscribs.index') !!} / Show
-                </h4>
-            </div> --}}
+
             <div class="card px-5">
                 <div class="card-body">
-                    <form action="/{{ $onSlug }}/{{ $data->id }}" method="post">
+                    <form action="/{{ $onSlug }}" method="post">
                         @csrf
-                        @method('PUT')
                         <div class="row">
                             <div class="col">
                                 <label class="py-1" for="name">Nama</label>
                                 <input name="name" class="form-control py-1 @error('name') is-invalid @enderror"
-                                    type="text" value="{{ $data->name }}" required>
+                                    type="text" value="{{ old('name') }}" required>
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -31,19 +26,19 @@
                             <div class="col">
                                 <label class="py-1" for="slug">Slug</label>
                                 <input name="slug" class="form-control py-1 @error('slug') is-invalid @enderror"
-                                    type="text" value="{{ $data->slug }}" required disabled>
+                                    type="text" value="{{ old('slug') }}" required disabled>
                                 @error('slug')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                        </div> 
+                        </div>
                         <div class="row">
                             <div class="col">
                                 <label class="py-1" for="date">Tanggal</label>
                                 <input name="date" class="form-control py-1 @error('date') is-invalid @enderror"
-                                    type="date" value="{{ $data->date }}" required>
+                                    type="date" value="{{ old('date') }}" required>
                                 @error('date')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -51,7 +46,7 @@
                                 @enderror
                             </div>
                             <div class="col">
-                        
+
                             </div>
                         </div>
 
@@ -63,4 +58,17 @@
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+
+    <script>
+        function generateSlug() {
+            var name = document.getElementsByName('name')[0].value;
+            var date = document.getElementsByName('date')[0].value;
+
+            // Menggabungkan nilai name dan date
+            var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + date;
+
+            document.getElementById('slug').value = slug;
+        }
+    </script>
+@endsection

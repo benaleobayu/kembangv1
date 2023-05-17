@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrdersRequest;
 use App\Http\Requests\UpdateOrdersRequest;
+use App\Models\Day;
 use App\Models\Flowers;
+use App\Models\Langganan;
 use App\Models\Orders;
 use App\Models\Regency;
 use Illuminate\Http\Request;
@@ -19,19 +21,16 @@ class OrdersController extends Controller
     {
         $search = $request->query('search');
 
-        if(!empty($search))
-        {
-            $query = Orders::where('name', 'like', '%' . $search . '%')
-                           ->orWhere('address', 'like' , '%' . $search . '%')
-                           ->orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
-        }else{
-            $query = Orders::orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
+        if (!empty($search)) {
+            $query = Day::where('name', 'like', '%' . $search . '%')
+                ->orderBy('id', 'asc')->paginate(10)->withQueryString();
+        } else {
+            $query = Day::orderBy('id', 'asc')->paginate(10)->withQueryString();
         }
 
-
-        return view('orders.ordersIndex',[
+        return view('orders.ordersIndex', [
             'data' => $query,
-            'search' => $search
+            'search' => $search,
         ]);
     }
 
@@ -54,14 +53,28 @@ class OrdersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Orders $orders, $id)
+    public function show(Request $request, Day $day, $slug)
     {
-        $collect = $orders->find($id);
+        $query = $day->where('slug', $slug)->firstOrFail()->orders();
 
-        return view('orders.ordersShow',[
-            'data' => $collect,
-            'regency' => Regency::orderBy('name', 'asc')->get(),
-            'flowers' => Flowers::all()
+        $search = $request->query('search');
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%');
+            });
+        }
+        $id = $day->id;
+
+        $dates = $query->paginate(25)->withQueryString();
+
+        return view('orders.ordersOnShow', [
+            'data' => $dates,
+            'search' => $search,
+            'slug' => $slug,
+            'id' => $id,
+            'days' => Day::orderBy('id', 'asc')->get(),
+
         ]);
     }
 
@@ -73,7 +86,7 @@ class OrdersController extends Controller
 
         $collect = $orders->find($id);
 
-        return view('orders.ordersEdit',[
+        return view('orders.ordersOnEdit', [
             'data' => $collect,
             'regency' => Regency::orderBy('name', 'asc')->get(),
             'flowers' => Flowers::all()
@@ -97,17 +110,15 @@ class OrdersController extends Controller
             'image' => 'image|mimes:jpeg,jpg,png,bmp,gif,svg|file|max:10240'
         ]);
 
-        if($request->file('image'))
-        {
-            if ($request->oldImage) 
-            {
+        if ($request->file('image')) {
+            if ($request->oldImage) {
                 Storage::delete($request->oldImage);
             }
             $validateData['image'] = $request->file('image')->store('doc-img');
         }
 
         $validateData['pic'] = auth()->user()->name;
-        
+
         Orders::where('id', $id)->update($validateData);
 
         return redirect('/orders')->with('success', 'Order berhasil diubah !');
@@ -118,16 +129,46 @@ class OrdersController extends Controller
      */
     public function destroy(Orders $orders, $id)
     {
-        $collect = $orders->find($id);
+        $deleted = Orders::find($id);
 
-        if ($collect->image) 
-        {
-            Storage::delete($collect->image);
+        if ($deleted) {
+            Orders::destroy($id);
+            session()->flash('success', 'Data Langganan berhasil dihapus !');
+        } else {
+            session()->flash('error', 'Data Langganan tidak ditemukan !');
+        }
+    }
+
+    public function importData(Request $request)
+    {
+        $dayId = $request->input('day_id');
+
+        $langganans = Langganan::where('day_id', $dayId)->get();
+
+
+        foreach ($langganans as $langganan) {
+            // Ambil nilai yang diperlukan dari tabel langganans
+            $name = $langganan->name;
+            $address = $langganan->address;
+            $phone = $langganan->phone;
+            $regencies_id = $langganan->regencies_id;
+            $notes = $langganan->notes;
+            $pic = $langganan->pic;
+
+            // Buat baris baru dalam tabel orders
+            $order = new Orders;
+            $order->name = $name;
+            $order->address = $address;
+            $order->regencies_id = $regencies_id;
+            $order->phone = $phone;
+            $order->flowers_id = 1;
+            $order->day_id = $dayId; // Set nilai day_id untuk baris order
+            $order->notes =  $notes;
+            $order->pic =  $pic;
+            $order->save();
         }
 
-        Orders::destroy($id);
-
-        return redirect('/orders')->with('success', 'Order berhasil dihapus !');
-
+        // Berhasil mengimpor data
+        return 'Data berhasil diimpor ke tabel orders.';
     }
 }

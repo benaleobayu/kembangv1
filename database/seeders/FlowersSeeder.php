@@ -14,6 +14,7 @@ class FlowersSeeder extends Seeder
     public function run(): void
     {
         $flowers = [
+            ['code' => '-', 'name' => 'Pilih Bunga', 'price' => '0'],
             ['code' => 'SR', 'name' => 'Mawar Merah', 'price' => '75000'],
             ['code' => 'A', 'name' => 'Mawar Putih', 'price' => '75000'],
             ['code' => 'PA', 'name' => 'Mawar Pinksweet', 'price' => '75000'],

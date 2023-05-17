@@ -46,7 +46,7 @@
                 data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
                 Orders
             </button>
-            <div class="collapse" id="orders-collapse">
+            <div class="collapse {{ Request::is('orders*', 'paydrivers*', 'paycustomers*', 'documentation*') ? 'show' : '' }}" id="orders-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                     @can('Read_DataOrders')
                     <li><a href="/orders"

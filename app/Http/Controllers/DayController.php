@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreDayRequest;
-use App\Http\Requests\UpdateDayRequest;
 use App\Models\Day;
-use App\Models\Langganan;
 use Illuminate\Http\Request;
 
 class DayController extends Controller
@@ -35,15 +32,25 @@ class DayController extends Controller
      */
     public function create()
     {
-        //
+        return view ('customers.dayCreate',[
+            'onSlug' => 'daysubscribs'
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDayRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required',
+            'slug' => 'nullable',
+            'date' => 'required'
+        ]);
+
+        Day::create($validateData);
+
+        return redirect('/daysubscribs')->with('success', 'Data berhasil ditambahkan !');
     }
 
     /**
@@ -78,7 +85,8 @@ class DayController extends Controller
     {
         $data = $day->find($id);
         return view('customers.dayEdit',[
-            'data' => $data
+            'data' => $data,
+            'onSlug' => 'daysubscribs'
         ]);
     }
 
@@ -104,6 +112,31 @@ class DayController extends Controller
     public function destroy(Day $day)
     {
         //
+    }
+
+    public function EditOnOrder(Day $day, $id)
+    {
+        $data = $day->find($id);
+        return view('customers.dayEdit',[
+            'data' => $data,
+            'onSlug' => 'day'
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function UpdateOnOrder(Request $request, $id)
+    {
+        $validateData = $request->validate([
+            'name' => 'required',
+            'slug' => 'nullable',
+            'date' => 'nullable'
+        ]);
+
+        Day::where('id', $id)->update($validateData);
+
+        return redirect('/orders')->with('success', 'Data berhasil diubah !');
     }
 
    

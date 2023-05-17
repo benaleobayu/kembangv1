@@ -11,16 +11,20 @@ class Day extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name' , 'date', 'slug'
+        'name', 'date', 'slug'
     ];
 
     public function langganan(): HasMany
     {
         return $this->hasMany(Langganan::class);
     }
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Orders::class);
+    }
 
     public function getRouteKeyName()
-{
-    return 'slug';
-}
+    {
+        return 'slug';
+    }
 }

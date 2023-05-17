@@ -32,4 +32,13 @@ class Orders extends Model
     {
         return $this->belongsTo(Flowers::class);
     }
+    public function day(): BelongsTo
+    {
+        return $this->belongsTo(Day::class);
+    }
+    
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

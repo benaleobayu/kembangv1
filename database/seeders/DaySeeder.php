@@ -14,11 +14,17 @@ class DaySeeder extends Seeder
     public function run(): void
     {
         Day::create([
+            'name' => 'Pilih Hari ...',
+            'slug' => 'unknown',
+            'date' => '2023-01-01'
+        ]);
+
+        Day::create([
             'name' => 'Senin',
             'slug' => 'senin',
             'date' => '2023-01-01'
         ]);
-        
+
         Day::create([
             'name' => 'Selasa',
             'slug' => 'selasa',
@@ -49,6 +55,5 @@ class DaySeeder extends Seeder
             'slug' => 'minggu',
             'date' => '2023-01-01'
         ]);
-
     }
 }
