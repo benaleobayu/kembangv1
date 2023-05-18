@@ -31,7 +31,3 @@ function previewImage()
 
 
 // search dropdown name
-
-$(document).ready(function() {
-    $('#selectName').select2();
-});

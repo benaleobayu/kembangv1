@@ -19,8 +19,7 @@
                         <div class="row">
                             <div class="col">
                                 <label class="py-1" for="selectName">Nama</label>
-                                <select name="name" id="selectName" class="form-select py-1 mt-1" required>
-                                    <option>Pilih Nama</option>
+                                <select name="name" id="selectName" class="form-select py-1 mt-1" required oninput="getCustomerData(this.value)">
                                     @foreach ($data as $row)
                                         @if (old('name') == $row->id)
                                             <option value="{{ $row->name }}" selected>{{ $row->name }}</option>
@@ -37,7 +36,7 @@
                             </div>
                             <div class="col">
                                 <label class="py-1" for="phone">Nomor Handphone</label>
-                                <input name="phone" class="form-control py-1 @error('phone') is-invalid @enderror"
+                                <input name="phone" id="phone" class="form-control py-1 @error('phone') is-invalid @enderror"
                                     type="text" value="{{ old('phone') }}">
                                 @error('phone')
                                     <div class="invalid-feedback">
@@ -49,7 +48,7 @@
 
                         <label class="py-1" for="address">Alamat</label>
                         <textarea class="form-control @error('address') is-invalid @enderror" name="address" id="address" cols="30"
-                            rows="3"></textarea>
+                            rows="3">{{ old('address') }}</textarea>
                         @error('address')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -76,7 +75,7 @@
                                     <div class="col">
                                         <label class="py-1" for="flowers_id">Bunga</label>
                                         <select name="flowers_id" id="flowers_id" class="form-select" required>
-                                            <option>Pilih Daerah</option>
+                                            <option value="">Pilih Bunga</option>
                                             @foreach ($flowers as $row)
                                                 @if (old('flowers_id') == $row->id)
                                                     <option value="{{ $row->id }}" selected>{{ $row->name }}
@@ -99,9 +98,8 @@
                                     </div>
                                 </div>
 
-                                <label class="py-1" for="day">Hari Langganan</label>
+                                <label class="py-1" for="day">Hari Pengiriman</label>
                                 <select name="day_id" id="day_id" class="form-select" required>
-                                    <option value="">Pilih ...</option>
                                     @foreach ($day as $row)
                                         @if (old('day_id') == $row->id)
                                             <option value="{{ $row->id }}" selected>{{ $row->name }}
@@ -133,4 +131,16 @@
                 </div>
             </div>
         </div>
+        <script>
+            function getCustomerData(name) {
+                fetch('/get-customer-data/' + name)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('address').value = data.address;
+                        document.getElementById('phone').value = data.phone;
+                        document.getElementById('regencies_id').value = data.regencies_id;
+                        document.getElementById('notes').value = data.notes;
+                    });
+            }
+        </script>
     @endsection

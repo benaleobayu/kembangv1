@@ -46,7 +46,7 @@ class LanggananController extends Controller
             'data' => Customers::orderBy('name', 'asc')->get(),
             'regency' => Regency::orderBy('name', 'asc')->get(),
             'flowers' => Flowers::orderBy('name', 'asc')->get(),
-            'day' => Day::orderBy('name', 'asc')->get(),
+            'day' => Day::orderBy('id', 'asc')->get(),
         ]);
     }
 
@@ -61,6 +61,7 @@ class LanggananController extends Controller
         $Customers = Customers::where('name', $request->input('name'))->first();
         $Customers = Customers::where('name', $request->input('selectOption'))->first();
 
+        
         // Masukkan data ke tabel 2
         $Langganan->name = $Customers->name;
         $Langganan->address = $Customers->address;
@@ -116,7 +117,7 @@ class LanggananController extends Controller
             'flowers_id' => 'numeric',
             'total' => 'numeric',
             'notes' => 'max:255',
-            'day' => 'required'
+            'day_id' => 'required'
         ]);
 
         $validateData['pic'] = auth()->user()->name;
@@ -147,4 +148,15 @@ class LanggananController extends Controller
 
         return response()->json($data);
     }
+
+    public function getCustomerData($name)
+{
+    $customer = Customers::where('name', $name)->first();
+    return response()->json([
+        'address' => $customer->address,
+        'phone' => $customer->phone,
+        'regencies_id' => $customer->regencies_id,
+        'notes' => $customer->notes,
+    ]);
+}
 }
