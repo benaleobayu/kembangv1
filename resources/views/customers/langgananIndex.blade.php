@@ -46,11 +46,13 @@
                         <tr>
                             <td class="text-top">{{ $nomor++ }}</td>
                             <td>{{ $d->name }}
-                                <hr> {{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br> Telp :
-                                {{ $d->phone }}
+                                <hr> {{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br> Telp :{{ $d->phone }}
                             </td>
-                            <td class="text-top">{{ $d->flowers->name }}</td>
-                            <td class="text-top text-center">{{ $d->total }}</td>
+                            @foreach ($d->pesanans as $item)
+                            <td class="text-top">{{ $item->flowers->name }}</td>
+                            <td class="text-top text-center">{{ $item->total }}</td>
+                            @endforeach
+    
                             <td class="text-top">{{ $d->regencies->name }}</td>
                             <td class="text-top">{{ $d->notes }}</td>
                             <td class="text-top">{{ $d->day->name }}</td>

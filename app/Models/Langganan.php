@@ -6,6 +6,7 @@ use App\Models\Regency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Langganan extends Model
 {
@@ -39,6 +40,10 @@ class Langganan extends Model
     public function customers(): BelongsTo
     {
         return $this->belongsTo(Customers::class);
+    }
+     public function pesanans(): HasMany
+    {
+        return $this->HasMany(Pesanan::class, 'langganans_id');
     }
     
 

@@ -8,13 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Customers;
 use App\Models\Day;
 use App\Models\Flowers;
+use App\Models\Pesanan;
 use App\Models\Regency;
 
 class LanggananController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $search = $request->query('search');
@@ -22,7 +20,6 @@ class LanggananController extends Controller
         if (!empty($search)) {
             $query = Langganan::where('name', 'like', '%' . $search . '%')
                 ->orWhere('address', 'like', '%' . $search . '%')
-                ->orWhere('')
                 ->paginate(10)->withQueryString();
         } else {
             $query = Langganan::orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
@@ -36,10 +33,6 @@ class LanggananController extends Controller
         ]);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('customers.langgananCreate', [
@@ -61,7 +54,7 @@ class LanggananController extends Controller
         $Customers = Customers::where('name', $request->input('name'))->first();
         $Customers = Customers::where('name', $request->input('selectOption'))->first();
 
-        
+
         // Masukkan data ke tabel 2
         $Langganan->name = $Customers->name;
         $Langganan->address = $Customers->address;
@@ -92,38 +85,57 @@ class LanggananController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Langganan $langganan, $id)
+    public function edit($id)
     {
-        $data = $langganan->find($id);
-        return view('customers.langgananEdit', [
-            'data' => $data,
+        $langganans = Langganan::findOrFail($id);
+
+
+        if (!$langganans) {
+            return redirect('/subscribers')->with('error', 'Data tidak ditemukan !');
+        }
+
+        $pesanans = $langganans->pesanans ?? [];
+        $data = [
+            'data' => $langganans,
+            'flowers' => Flowers::orderBy('name', 'asc')->get(),
             'regency' => Regency::orderBy('name', 'asc')->get(),
             'flowers' => Flowers::orderBy('name', 'asc')->get(),
-            'day' => Day::orderBy('id', 'asc')->get(),
-
-        ]);
+            'day' => Day::whereBetween('id', [1, 8])->orderBy('id', 'asc')->get(),
+            'pesanans' => $pesanans
+            // ... tambahkan data lain yang diperlukan ...
+        ];
+        return view('customers.langgananEdit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Langganan $langganan, $id)
     {
-        $validateData = $request->validate([
-            'name' => 'required',
-            'address' => 'required|max:255',
-            'regencies_id' => 'required',
-            'phone' => 'numeric',
-            'flowers_id' => 'numeric',
-            'total' => 'numeric',
-            'notes' => 'max:255',
-            'day_id' => 'required'
-        ]);
+        $subscribers = Langganan::find($id);
 
-        $validateData['pic'] = auth()->user()->name;
+    // Validasi input
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'phone' => 'required',
+        'address' => 'required',
+        'regencies_id' => 'required',
+        'day_id' => 'required',
+        'notes' => 'nullable',
+        'pesanans.*.flowers_id' => 'required',
+        'pesanans.*.total' => 'required',
+    ]);
 
-        Langganan::where('id', $id)->update($validateData);
+    // Update data langganan
 
+    $validatedData['pic'] = auth()->user()->name;
+    Langganan::where('id', $id)->update($validatedData);
+
+    // Update pesanan
+    $pesanans = $request->pesanans;
+    foreach ($pesanans as $index => $pesanan) {
+        $order = Pesanan::find($pesanan['id']);
+        $order->flowers_id = $pesanan['flowers_id'];
+        $order->total = $pesanan['total'];
+        $order->save();
+    }
         return redirect('/subscribers')->with('success', 'Data Langganan berhasil diubah !');
     }
 
@@ -150,13 +162,13 @@ class LanggananController extends Controller
     }
 
     public function getCustomerData($name)
-{
-    $customer = Customers::where('name', $name)->first();
-    return response()->json([
-        'address' => $customer->address,
-        'phone' => $customer->phone,
-        'regencies_id' => $customer->regencies_id,
-        'notes' => $customer->notes,
-    ]);
-}
+    {
+        $customer = Customers::where('name', $name)->first();
+        return response()->json([
+            'address' => $customer->address,
+            'phone' => $customer->phone,
+            'regencies_id' => $customer->regencies_id,
+            'notes' => $customer->notes,
+        ]);
+    }
 }

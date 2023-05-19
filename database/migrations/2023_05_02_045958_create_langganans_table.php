@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->foreignId('regencies_id')->nullable();
             $table->string('phone')->nullable();
-            $table->foreignId('flowers_id')->nullable();
-            $table->string('total')->nullable();
+            // $table->foreignId('flowers_id')->nullable();
+            // $table->string('total')->nullable();
             $table->string('notes')->nullable();
             $table->foreignId('day_id')->nullable();
             $table->string('pic')->nullable();

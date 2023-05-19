@@ -7,7 +7,7 @@
                 <a class="breadcrumb-item text-decoration-none fs-5" href="/subscribers">Langganan</a>
                 <span class="breadcrumb-item fs-5 active" aria-current="page">Edit</span>
             </nav>
-          
+
             <div class="card px-5">
                 <div class="card-body">
                     <form action="/subscribers/{{ $data->id }}" method="post">
@@ -56,51 +56,61 @@
                                 @endif
                             @endforeach
                         </select>
+
                         <div class="card mt-3">
                             <div class="card-header">
-                                Pesanan
+                                <div class="row">
+                                    <div class="col">Pesanan</div>
+                                    <div class="col d-flex flex-row-reverse">
+                                        {{-- <button type="button" class="btn btn-primary" onclick="addOrderInput()">Tambah Pesanan</button> --}}
+                                        <button type="button" class="btn btn-primary" id="add-pesanan">Tambah
+                                            Pesanan</button>
+                                    </div>
+                                </div>
+
                             </div>
                             <div id="order-section">
-                                <div class="card-body">
-                                    @foreach ($orders as $index => $order)
-                                        <div class="order-item">
+                                <div class="card-body" id="pesanan-container">
+                                    @foreach ($pesanans as $index => $pesanan)
+                                        <div class="pesanan-item">
                                             <div class="row">
                                                 <div class="col">
                                                     <label class="py-1" for="flowers_id">Bunga</label>
-                                                    <select name="flowers_id[]" class="form-select" required>
-                                                        <option>Pilih Daerah</option>
-                                                        @foreach ($flowers as $row)
-                                                            @if (old('flowers_id.'.$index, $order['flowers_id']) == $row->id)
-                                                                <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
-                                                            @else
-                                                                <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                                            @endif
+                                                    <select name="pesanans[{{ $index }}][flowers_id]"
+                                                        class="form-select" required>
+                                                        @foreach ($flowers as $item)
+                                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col">
-                                                    <label class="py-1" for="count">Jumlah</label>
-                                                    <input name="count[]" class="form-control py-1 @error('count') is-invalid @enderror"
-                                                        type="text" value="{{ old('count.'.$index, $order['count']) }}" required>
-                                                    @error('count.'.$index)
+                                                    <label class="py-1" for="total">Total</label>
+                                                    <input name="pesanans[{{ $index }}][total]"
+                                                        class="form-control py-1 @error('pesanans.' . $index . '.total') is-invalid @enderror"
+                                                        type="text"
+                                                        value="{{ old('pesanans.' . $index . '.total', $pesanan['total']) }}"
+                                                        required>
+                                                    @error('pesanans.' . $index . '.total')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
                                                         </div>
                                                     @enderror
                                                 </div>
                                                 <div class="col">
-                                                    <button type="button" class="btn btn-danger remove-order">Hapus</button>
+                                                    <button type="button" class="btn btn-danger remove-pesanan">Hapus
+                                                        Pesanan</button>
                                                 </div>
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
-                                <button type="button" class="btn btn-primary" id="add-order">Tambah Pesanan</button>
+
+
                             </div>
                         </div>
                         <label class="py-1" for="day_id">Hari Langganan</label>
                         <select name="day_id" id="day_id" class="form-select" required>
-                            <option value="" style="font-weight: 800"> Pilih ...</option>
                             @foreach ($day as $row)
                                 @if (old('day_id', $data->day->id) == $row->id)
                                     <option value="{{ $row->id }}" selected>{{ $row->name }}
@@ -131,46 +141,59 @@
             </div>
         </div>
         <script>
-            document.getElementById("add-order").addEventListener("click", function() {
-                var orderSection = document.getElementById("order-section");
-                var orderItem = document.createElement("div");
-                orderItem.classList.add("order-item");
-        
-                var row = document.createElement("div");
-                row.classList.add("row");
-        
-                var col1 = document.createElement("div");
-                col1.classList.add("col");
-        
-                var label1 = document.createElement("label");
-                label1.classList.add("py-1");
-                label1.textContent = "Bunga";
-        
-                var select = document.createElement("select");
-                select.setAttribute("name", "flowers_id[]");
-                select.classList.add("form-select");
-                select.required = true;
-        
-                // Tambahkan opsi select di sini
-        
-                col1.appendChild(label1);
-                col1.appendChild(select);
-        
-                // Tambahkan kolom input jumlah (col2) dan tombol hapus (col3) di sini
-        
-                row.appendChild(col1);
-                row.appendChild(col2);
-                row.appendChild(col3);
-        
-                orderItem.appendChild(row);
-                orderSection.querySelector(".card-body").appendChild(orderItem);
+            // Mendapatkan data bunga dari server
+            var flowersData = @json($flowers);
+
+            // Event listener untuk tombol "Tambah Pesanan"
+            document.getElementById('add-pesanan').addEventListener('click', function() {
+                addPesananInput();
             });
-        
-            document.addEventListener("click", function(event) {
-                if (event.target.classList.contains("remove-order")) {
-                    var orderItem = event.target.closest(".order-item");
-                    orderItem.parentNode.removeChild(orderItem);
+
+            // Event listener untuk tombol "Hapus Pesanan"
+            document.getElementById('pesanan-container').addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-pesanan')) {
+                    removePesananInput(e.target.parentNode.parentNode.parentNode);
                 }
             });
+
+            // Fungsi untuk menambahkan input pesanan
+            function addPesananInput() {
+                var container = document.getElementById('pesanan-container');
+                var pesananItem = document.createElement('div');
+                pesananItem.classList.add('pesanan-item');
+                pesananItem.innerHTML = `
+                    <div class="row">
+                        <div class="col">
+                            <label class="py-1" for="flowers_id">Bunga</label>
+                            <select name="pesanans[][flowers_id]" class="form-select" required>
+                                <option value="">Pilih Bunga</option>
+                                ${generateFlowersOptions()}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label class="py-1" for="total">Total</label>
+                            <input name="pesanans[][total]" class="form-control py-1" type="text" required>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-danger remove-pesanan">Hapus Pesanan</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(pesananItem);
+            }
+
+            // Fungsi untuk menghapus input pesanan
+            function removePesananInput(pesananItem) {
+                pesananItem.remove();
+            }
+
+            // Fungsi untuk menghasilkan opsi bunga dalam elemen select
+            function generateFlowersOptions() {
+                var options = '';
+                flowersData.forEach(function(flower) {
+                    options += `<option value="${flower.id}">${flower.name}</option>`;
+                });
+                return options;
+            }
         </script>
     @endsection

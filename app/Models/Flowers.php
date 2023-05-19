@@ -25,4 +25,9 @@ class Flowers extends Model
     {
         return $this->hasMany(Langganan::class);
     }
+    public function pesanans(): HasMany
+    {
+        return $this->hasMany(Pesanan::class);
+    }
+    
 }
