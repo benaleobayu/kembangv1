@@ -109,34 +109,42 @@ class LanggananController extends Controller
 
     public function update(Request $request, Langganan $langganan, $id)
     {
-        $subscribers = Langganan::find($id);
+        $subscriber = Langganan::findOrFail($id);
 
-    // Validasi input
-    $validatedData = $request->validate([
-        'name' => 'required',
-        'phone' => 'required',
-        'address' => 'required',
-        'regencies_id' => 'required',
-        'day_id' => 'required',
-        'notes' => 'nullable',
-        'pesanans.*.flowers_id' => 'required',
-        'pesanans.*.total' => 'required',
-    ]);
+        $request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'address' => 'required|string',
+            'regencies_id' => 'required|exists:regencies,id',
+            'day_id' => 'required|exists:days,id',
+            'notes' => 'nullable|string',
+            'pesanans' => 'nullable|array',
+            'pesanans.*.flowers_id' => 'required|exists:flowers,id',
+            'pesanans.*.total' => 'required|integer',
+        ]);
 
-    // Update data langganan
+        $subscriber->name = $request->name;
+        $subscriber->phone = $request->phone;
+        $subscriber->address = $request->address;
+        $subscriber->regencies_id = $request->regencies_id;
+        $subscriber->day_id = $request->day_id;
+        $subscriber->notes = $request->notes;
+        $subscriber->pic = auth()->user()->name;
 
-    $validatedData['pic'] = auth()->user()->name;
-    Langganan::where('id', $id)->update($validatedData);
+        $subscriber->pesanans()->delete();
 
-    // Update pesanan
-    $pesanans = $request->pesanans;
-    foreach ($pesanans as $index => $pesanan) {
-        $order = Pesanan::find($pesanan['id']);
-        $order->flowers_id = $pesanan['flowers_id'];
-        $order->total = $pesanan['total'];
-        $order->save();
-    }
-        return redirect('/subscribers')->with('success', 'Data Langganan berhasil diubah !');
+        if ($request->has('pesanans')) {
+            foreach ($request->pesanans as $pesanan) {
+                $subscriber->pesanans()->create([
+                    'flowers_id' => $pesanan['flowers_id'],
+                    'total' => $pesanan['total'],
+                ]);
+            }
+        }
+
+        $subscriber->save();
+
+        return redirect('/subscribers')->with('success', 'Data pelanggan berhasil diperbarui.');
     }
 
     /**

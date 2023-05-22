@@ -10,9 +10,11 @@ class Pesanan extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['langganan_id', 'total', 'flowers_id'];
+
     public function langganan():BelongsTo
     {
-        return $this->belongsTo(Langganan::class, 'langganans_id');
+        return $this->belongsTo(Langganan::class);
     }
     public function flowers(): BelongsTo
     {

@@ -17,8 +17,8 @@ class Langganan extends Model
         'address',
         'regencies_id',
         'phone',
-        'flowers_id',
-        'total',
+        // 'flowers_id',
+        // 'total',
         'notes',
         'day_id',
         'pic'
@@ -27,6 +27,7 @@ class Langganan extends Model
     {
         return $this->belongsTo(Regency::class);
     }
+
     public function flowers(): BelongsTo
     {
         return $this->belongsTo(Flowers::class);
@@ -41,9 +42,10 @@ class Langganan extends Model
     {
         return $this->belongsTo(Customers::class);
     }
+
      public function pesanans(): HasMany
     {
-        return $this->HasMany(Pesanan::class, 'langganans_id');
+        return $this->HasMany(Pesanan::class);
     }
     
 
