@@ -128,10 +128,11 @@
         <script>
             // Mendapatkan data bunga dari server
             var flowersData = @json($flowers);
-        
-            // Event listener untuk tombol "Tambah Pesanan"
+            let index = 0;
+                        // Event listener untuk tombol "Tambah Pesanan"
             document.getElementById('add-pesanan').addEventListener('click', function() {
-                addPesananInput();
+                addPesananInput(index);
+                index++
             });
         
             // Event listener untuk tombol "Hapus Pesanan"
@@ -142,7 +143,7 @@
             });
         
             // Fungsi untuk menambahkan input pesanan
-            function addPesananInput() {
+            function addPesananInput(index) {
                 var container = document.getElementById('pesanan-container');
                 var pesananItem = document.createElement('div');
                 pesananItem.classList.add('pesanan-item');
@@ -150,14 +151,14 @@
                     <div class="row d-flex">
                         <div class="col">
                             <label class="py-1" for="flowers_id">Bunga</label>
-                            <select name="pesanans[][flowers_id]" class="form-select" required>
+                            <select name="pesanans[${index}][flowers_id]" class="form-select" required>
                                 <option value="">Pilih Bunga</option>
                                 ${generateFlowersOptions()}
                             </select>
                         </div>
                         <div class="col">
                             <label class="py-1" for="total">Total</label>
-                            <input name="pesanans[][total]" class="form-control py-1" type="text" required>
+                            <input name="pesanans[${index}][total]" class="form-control py-1" type="text" required>
                         </div>
                         <div class="col d-flex align-items-end">
                             <button type="button" class="btn btn-danger remove-pesanan">Hapus Pesanan</button>
@@ -166,6 +167,7 @@
                 `;
                 container.appendChild(pesananItem);
             }
+            
         
             // Fungsi untuk menghapus input pesanan
             function removePesananInput(pesananItem) {

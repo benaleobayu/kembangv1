@@ -109,6 +109,7 @@ class LanggananController extends Controller
 
     public function update(Request $request, Langganan $langganan, $id)
     {
+
         $subscriber = Langganan::findOrFail($id);
 
         $request->validate([
