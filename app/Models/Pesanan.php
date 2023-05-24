@@ -16,6 +16,11 @@ class Pesanan extends Model
     {
         return $this->belongsTo(Langganan::class);
     }
+    public function order():BelongsTo
+    {
+        return $this->belongsTo(Orders::class, 'langganan_id');
+    }
+
     public function flowers(): BelongsTo
     {
         return $this->belongsTo(Flowers::class);

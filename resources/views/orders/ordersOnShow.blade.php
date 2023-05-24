@@ -3,18 +3,12 @@
 @section('content')
     <div class="table p-2 mt-5">
         @can('Create_Langganan')
-            <div class="fiturbutton p-3 d-flex flex-row-reverse">
-                <button class="btn btn-primary" onclick="window.location='{{ url('/orders/create') }}'"><i
-                        class="bi bi-plus-lg"></i><span class="me-2">Tambah</span> </button>
-            </div>
-        @endcan
-        <div class="row search-breadcrumbs d-flex">
-            <div class="col d-flex">
-                <div class="flex-row">
+            <div class="row p-3">
+                <div class="col flex-row w-100" style="max-width: 300px">
                     <form action="/orders/import" method="POST" id="import-form">
                         @csrf
                         <label for="day_id">Import Hari:</label>
-                        <div class="input-group mb-3 ms-auto">
+                        <div class="input-group ms-auto">
                             <select name="day_id" id="day_id" class="form-select">
                                 @foreach ($days as $day)
                                     <option value="{{ $day->id }}">{{ $day->name }}</option>
@@ -23,6 +17,19 @@
                             <button class="import-btn btn btn-primary rounded d-inline" type="submit">Import</button>
                         </div>
                     </form>
+                </div>
+                <div class="col d-flex align-items-center">
+                    <div class="ms-auto">
+                        <button class="btn btn-primary" onclick="window.location='{{ url('/orders/create') }}'">
+                            <i class="bi bi-plus-lg"></i><span class="me-2">Tambah</span> </button>
+                    </div>
+                </div>
+            </div>
+        @endcan
+        <div class="row search-breadcrumbs d-flex">
+            <div class="col d-flex align-items-center">
+                <div class="fw-bold">
+                    Pesanan : {{ $data[1]->day->name }} {{ $data[1]->day->date }}
                 </div>
             </div>
             <div class="col d-flex align-items-end flex-row-reverse">
@@ -48,7 +55,6 @@
                     <th class="text-center">Jumlah</th>
                     <th>Daerah</th>
                     <th>Catatan</th>
-                    <th>Hari</th>
                     <th>PIC</th>
                     <th>Action</th>
                 </tr>
@@ -72,7 +78,8 @@
                                 @else
                                     <div>{{ $d->name }}</div>
                                 @endif
-                                <div class="fw-bold"><span class="fw-normal">Alamat :</span> {{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br>
+                                <div class="fw-bold"><span class="fw-normal">Alamat :</span> {{ $d->address }},
+                                    {{ $d->regencies->name }}, {{ $d->regencies->city }} <br>
                                     <span class="fw-normal">Telp :</span> {{ $d->phone }}
                                 </div>
                             </td>
@@ -96,21 +103,20 @@
                                 @endif
                             </td>
                             <td class="text-top">{{ $d->notes }}</td>
-                            <td class="text-top">{{ $d->day->name }}</td>
                             <td class="text-top">{{ $d->pic }}</td>
                             <td class="text-top" style="white-space: nowrap">
                                 <button class="badge border-0 p-2 bg-info"
-                                    onclick="window.location='{{ url('/daysubscribs/' . $d->id) }}'">
+                                    onclick="window.location='{{ url('/orders/' . $d->id) }}'">
                                     <i class="bi bi-eye"></i>
                                 </button>
                                 @can('Edit_Langganan')
                                     <button class="badge border-0 p-2 bg-warning"
-                                        onclick="window.location='{{ url('/daysubscribs/' . $d->id . '/edit') }}'">
+                                        onclick="window.location='{{ url('/orders/' . $d->id . '/edit') }}'">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                 @endcan
                                 @can('Delete_Langganan')
-                                    <form action="/daysubscribs/{{ $d->id }}" method="post" class="d-inline">
+                                    <form action="/orders/{{ $d->id }}" method="post" class="d-inline">
                                         @method('delete')
                                         @csrf
                                         <button class="delete-btn badge border-0 p-2 bg-danger">
@@ -139,7 +145,7 @@
     @push('alert_delete')
         @include('layouts.sweetalert.alert-delete')
     @endpush
-    
+
     @push('alert_import')
         @include('layouts.sweetalert.alert-import')
     @endpush

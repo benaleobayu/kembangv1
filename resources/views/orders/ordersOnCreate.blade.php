@@ -10,14 +10,14 @@
         
             <div class="card px-5">
                 <div class="card-body">
-                    <form action="/orders/{{ $data->id }}" method="post" enctype="multipart/form-data">
+                    <form action="/orders" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
                             <div class="col">
                                 <label class="py-1" for="name">Nama</label>
                                 <input name="name" class="form-control py-1 @error('name') is-invalid @enderror"
-                                    type="text" value="{{ $data->name }}" required>
+                                    type="text" value="{{ old('name')}}" required>
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -27,7 +27,7 @@
                             <div class="col">
                                 <label class="py-1" for="phone">Nomor Handphone</label>
                                 <input name="phone" class="form-control py-1 @error('phone') is-invalid @enderror"
-                                    type="text" value="{{ old('phone', $data->phone) }}" required>
+                                    type="text" value="{{ old('phone' }}" required>
                                 @error('phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -38,7 +38,7 @@
         
                         <label class="py-1" for="address">Alamat</label>
                         <textarea class="form-control @error('address') is-invalid @enderror" name="address" id="address" cols="30"
-                            rows="3" required>{{ $data->address }}</textarea>
+                            rows="3" required>{{ old('address')}}</textarea>
                         @error('address')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -49,7 +49,7 @@
                         <select name="regencies_id" id="regencies_id" class="form-select" required>
                             <option>Pilih Daerah</option>
                             @foreach ($regency as $row)
-                                @if (old('regencies_id', $data->regencies->id) == $row->id)
+                                @if (old('regencies_id') == $row->id)
                                     <option value="{{ $row->id }}" selected>{{ $row->name }}</option>
                                 @else
                                     <option value="{{ $row->id }}">{{ $row->name }}</option>
@@ -100,7 +100,7 @@
                         <label class="py-1" for="day_id">Hari Langganan</label>
                         <select name="day_id" id="day_id" class="form-select" required>
                             @foreach ($day as $row)
-                                @if (old('day_id', $data->day->id) == $row->id)
+                                @if (old('day_id', old('')->id) == $row->id)
                                     <option value="{{ $row->id }}" selected>{{ $row->name }}
                                     </option>
                                 @else
@@ -111,7 +111,7 @@
         
                         <label class="py-1" for="notes">Catatan</label>
                         <textarea class="form-control @error('notes') is-invalid @enderror" name="notes" id="notes" cols="30"
-                            rows="5">{{ $data->notes }}</textarea>
+                            rows="5">{{ old('')}}</textarea>
                         @error('interest')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -121,9 +121,9 @@
                         <div class="row mt-3">
                             <div class="col-6">
                                 <label for="image">Hasil Pengerjaan</label>
-                                <input type="hidden" name="oldImage" value="{{ $data->image }}">
-                                @if ($data->image)
-                                    <img src="{{ asset('storage/' . $data->image) }}" alt="" class="img-preview img-fluid  mb-3 d-block" style="max-height: 400px; border: 1px solid darkgrey; border-radius: 5px">
+                                <input type="hidden" name="oldImage" value="{{ old('')}}">
+                                @if (old(''))
+                                    <img src="{{ asset('storage/' . old('')) }}" alt="" class="img-preview img-fluid  mb-3 d-block" style="max-height: 400px; border: 1px solid darkgrey; border-radius: 5px">
                                 @else
                                     <img src="" alt=""
                                         class="img-preview img-fluid mb-3 d-block" style="max-height: 400px">

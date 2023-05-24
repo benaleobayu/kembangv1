@@ -39,11 +39,22 @@ class OrdersController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Orders $orders)
     {
-        return view ('customers.dayCreate',[
-            'onSlug' => 'daysubscribs',
-            'days' => Day::orderBy('id', 'asc')->get()
+        $day = $orders->day;
+        $slug = strtolower(str_replace(' ', '-', $day));
+        $collect = Orders::all();
+
+        $pesanans = $collect->pesanans ?? [];
+
+
+        return view('orders.ordersOnCreate', [
+            'data' => $collect,
+            'regency' => Regency::orderBy('name', 'asc')->get(),
+            'flowers' => Flowers::all(),
+            'day' => Day::whereBetween('id', [1, 8])->orderBy('id', 'asc')->get(),
+            'pesanans' => $pesanans,
+            'slug' => $slug
         ]);
     }
 
@@ -83,52 +94,71 @@ class OrdersController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Orders $orders, $id)
     {
         $day = $orders->day;
         $slug = strtolower(str_replace(' ', '-', $day));
         $collect = $orders->find($id);
 
+        $pesanans = $collect->pesanans ?? [];
+
+
         return view('orders.ordersOnEdit', [
             'data' => $collect,
             'regency' => Regency::orderBy('name', 'asc')->get(),
             'flowers' => Flowers::all(),
+            'day' => Day::whereBetween('id', [1, 8])->orderBy('id', 'asc')->get(),
+            'pesanans' => $pesanans,
             'slug' => $slug
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Orders $orders, $id)
     {
         $customer = $orders->find($id);
         $slug = Day::findOrFail($customer->day_id)->slug;
 
-        $validateData = $request->validate([
+        $request->validate([
             'name' => 'required',
             'address' => 'required|max:255',
             'regencies_id' => 'required',
-            'phone' => 'numeric',
-            'flowers_id' => 'numeric',
-            'total' => 'numeric',
-            'notes' => 'max:255',
+            'phone' => 'string',
             'date' => 'date',
-            'image' => 'image|mimes:jpeg,jpg,png,bmp,gif,svg|file|max:10240'
+            'day_id' => 'required',
+            'notes' => 'max:255',
+            'image' => 'image|mimes:jpeg,jpg,png,bmp,gif,svg|file|max:10240',
+            'pesanans' => 'nullable|array',
+            'pesanans.*.flowers_id' => 'required|exists:flowers,id',
+            'pesanans.*.total' => 'required|integer',
         ]);
         if ($request->file('image')) {
             if ($request->oldImage) {
                 Storage::delete($request->oldImage);
             }
-            $validateData['image'] = $request->file('image')->store('doc-img');
+            $customer->image = $request->file('image')->store('doc-img');
         }
 
-        $validateData['pic'] = auth()->user()->name;
+        $customer->name = $request->name;
+        $customer->address = $request->address;
+        $customer->regencies_id = $request->regencies_id;
+        $customer->phone = $request->phone;
+        $customer->date = $customer->day->date;
+        $customer->day_id = $request->day_id;
+        $customer->notes = $request->notes;
+        $customer->pic = auth()->user()->name;
 
-        Orders::where('id', $id)->update($validateData);
+        $customer->pesanans()->delete();
+
+        if ($request->has('pesanans')) {
+            foreach ($request->pesanans as $pesanan) {
+                $customer->pesanans()->create([
+                    'flowers_id' => $pesanan['flowers_id'],
+                    'total' => $pesanan['total'],
+                ]);
+            }
+        }
+
+        $customer->save();
 
         return redirect('/orders/' . $slug)->with('success', 'Order berhasil diubah !');
     }
@@ -142,9 +172,9 @@ class OrdersController extends Controller
 
         if ($deleted) {
             Orders::destroy($id);
-            session()->flash('success', 'Data Langganan berhasil dihapus !');
+            session()->flash('success', 'Data order berhasil dihapus !');
         } else {
-            session()->flash('error', 'Data Langganan tidak ditemukan !');
+            session()->flash('error', 'Data order tidak ditemukan !');
         }
     }
 

@@ -137,7 +137,6 @@ class DayController extends Controller
             'data' => $langganans,
             'flowers' => Flowers::orderBy('name', 'asc')->get(),
             'regency' => Regency::orderBy('name', 'asc')->get(),
-            'flowers' => Flowers::orderBy('name', 'asc')->get(),
             'day' => Day::whereBetween('id', [1, 8])->orderBy('id', 'asc')->get(),
             'pesanans' => $pesanans
             // ... tambahkan data lain yang diperlukan ...
@@ -183,6 +182,6 @@ class DayController extends Controller
 
         $subscriber->save();
 
-        return redirect('/daysubscribs' .  $slug )->with('success', 'Data pelanggan berhasil diperbarui.');
+        return redirect('/daysubscribs' )->with('success', 'Data pelanggan berhasil diperbarui.');
     }
 }

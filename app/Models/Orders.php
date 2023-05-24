@@ -7,6 +7,7 @@ use App\Models\Regency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Orders extends Model
 {
@@ -19,7 +20,6 @@ class Orders extends Model
         'phone',
         'flowers_id',
         'notes',
-        'date',
         'image',
         'pic'
     ];
@@ -36,7 +36,11 @@ class Orders extends Model
     {
         return $this->belongsTo(Day::class);
     }
-    
+    public function pesanans(): HasMany
+    {
+        return $this->HasMany(Pesanan::class, 'langganan_id');
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

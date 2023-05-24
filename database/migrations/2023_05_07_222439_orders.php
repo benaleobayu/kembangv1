@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreignId('flowers_id')->nullable();
             $table->string('total')->nullable();
             $table->string('notes')->nullable();
-            $table->date('date')->nullable();
             $table->foreignId('day_id')->nullable();
             $table->string('image')->nullable();
             $table->string('pic')->nullable();
