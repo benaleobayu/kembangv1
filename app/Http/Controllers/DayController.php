@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Day;
+use App\Models\Flowers;
+use App\Models\Langganan;
+use App\Models\Regency;
 use Illuminate\Http\Request;
 
 class DayController extends Controller
@@ -120,5 +123,66 @@ class DayController extends Controller
         }
     }
 
-    
+    public function showEdit($id)
+    {
+        $langganans = Langganan::findOrFail($id);
+
+
+        if (!$langganans) {
+            return redirect('/subscribers')->with('error', 'Data tidak ditemukan !');
+        }
+
+        $pesanans = $langganans->pesanans ?? [];
+        $data = [
+            'data' => $langganans,
+            'flowers' => Flowers::orderBy('name', 'asc')->get(),
+            'regency' => Regency::orderBy('name', 'asc')->get(),
+            'flowers' => Flowers::orderBy('name', 'asc')->get(),
+            'day' => Day::whereBetween('id', [1, 8])->orderBy('id', 'asc')->get(),
+            'pesanans' => $pesanans
+            // ... tambahkan data lain yang diperlukan ...
+        ];
+        return view('customers.langgananEdit', $data);
+    }
+
+    public function showUpdate(Request $request, Langganan $langganan, $id)
+    {
+
+        $subscriber = Langganan::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'address' => 'required|string',
+            'regencies_id' => 'required|exists:regencies,id',
+            'day_id' => 'required|exists:days,id',
+            'notes' => 'nullable|string',
+            'pesanans' => 'nullable|array',
+            'pesanans.*.flowers_id' => 'required|exists:flowers,id',
+            'pesanans.*.total' => 'required|integer',
+        ]);
+
+        $subscriber->name = $request->name;
+        $subscriber->phone = $request->phone;
+        $subscriber->address = $request->address;
+        $subscriber->regencies_id = $request->regencies_id;
+        $subscriber->day_id = $request->day_id;
+        $subscriber->notes = $request->notes;
+        $subscriber->pic = auth()->user()->name;
+
+        $subscriber->pesanans()->delete();
+
+        if ($request->has('pesanans')) {
+            foreach ($request->pesanans as $pesanan) {
+                $subscriber->pesanans()->create([
+                    'flowers_id' => $pesanan['flowers_id'],
+                    'total' => $pesanan['total'],
+                ]);
+            }
+        }
+
+        $subscriber->save();
+
+        return redirect('/daysubscribs' .  $slug )->with('success', 'Data pelanggan berhasil diperbarui.');
+    }
 }

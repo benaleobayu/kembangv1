@@ -54,34 +54,63 @@
                 </tr>
             </thead>
             <tbody>
-
                 @if (count($data) > 0)
                     @php
                         $nomor = 1 + ($data->currentPage() - 1) * $data->perPage();
                     @endphp
                     @foreach ($data as $d)
+                        @php
+                            $flowersCount = $d->pesanans->count();
+                        @endphp
                         <tr>
                             <td class="text-top">{{ $nomor++ }}</td>
-                            <td>{{ $d->name }}
-                                <hr> {{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br> Telp :
-                                {{ $d->phone }}
+                            <td class="text-top">
+                                @if ($flowersCount > 1)
+                                    @for ($i = 0; $i < $flowersCount; $i++)
+                                        <div>{{ $d->name }}</div>
+                                    @endfor
+                                @else
+                                    <div>{{ $d->name }}</div>
+                                @endif
+                                <div class="fw-bold"><span class="fw-normal">Alamat :</span> {{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br>
+                                    <span class="fw-normal">Telp :</span> {{ $d->phone }}
+                                </div>
                             </td>
-                            <td class="text-top">{{ $d->flowers->name }}</td>
-                            <td class="text-top text-center">{{ $d->total }}</td>
-                            <td class="text-top">{{ $d->regencies->name }}</td>
+                            <td class="text-top">
+                                @foreach ($d->pesanans as $pesanan)
+                                    <div>{{ $pesanan->flowers->name }}</div>
+                                @endforeach
+                            </td>
+                            <td class="text-top text-center">
+                                @foreach ($d->pesanans as $pesanan)
+                                    <div>{{ $pesanan->total }}</div>
+                                @endforeach
+                            </td>
+                            <td class="text-top">
+                                @if ($flowersCount > 1)
+                                    @for ($i = 0; $i < $flowersCount; $i++)
+                                        <div>{{ $d->regencies->name }}</div>
+                                    @endfor
+                                @else
+                                    <div>{{ $d->regencies->name }}</div>
+                                @endif
+                            </td>
                             <td class="text-top">{{ $d->notes }}</td>
                             <td class="text-top">{{ $d->day->name }}</td>
                             <td class="text-top">{{ $d->pic }}</td>
                             <td class="text-top" style="white-space: nowrap">
-                              
+                                <button class="badge border-0 p-2 bg-info"
+                                    onclick="window.location='{{ url('/daysubscribs/' . $d->id) }}'">
+                                    <i class="bi bi-eye"></i>
+                                </button>
                                 @can('Edit_Langganan')
                                     <button class="badge border-0 p-2 bg-warning"
-                                        onclick="window.location='{{ url('/orders/' . $d->id . '/edit') }}'">
+                                        onclick="window.location='{{ url('/daysubscribs/' . $d->id . '/edit') }}'">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                 @endcan
                                 @can('Delete_Langganan')
-                                    <form action="/orders/{{ $d->id }}" method="post" class="d-inline">
+                                    <form action="/daysubscribs/{{ $d->id }}" method="post" class="d-inline">
                                         @method('delete')
                                         @csrf
                                         <button class="delete-btn badge border-0 p-2 bg-danger">
@@ -99,8 +128,9 @@
                         </td>
                     </tr>
                 @endif
-
             </tbody>
+
+
         </table>
         {{ $data->links() }}
 

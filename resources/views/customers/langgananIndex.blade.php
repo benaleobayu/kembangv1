@@ -37,23 +37,47 @@
                 </tr>
             </thead>
             <tbody>
-
                 @if (count($data) > 0)
                     @php
                         $nomor = 1 + ($data->currentPage() - 1) * $data->perPage();
                     @endphp
                     @foreach ($data as $d)
+                        @php
+                            $flowersCount = $d->pesanans->count();
+                        @endphp
                         <tr>
                             <td class="text-top">{{ $nomor++ }}</td>
-                            <td>{{ $d->name }}
-                                <hr> {{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br> Telp :{{ $d->phone }}
+                            <td class="text-top">
+                                @if ($flowersCount > 1)
+                                    @for ($i = 0; $i < $flowersCount; $i++)
+                                        <div>{{ $d->name }}</div>
+                                    @endfor
+                                @else
+                                    <div>{{ $d->name }}</div>
+                                @endif
+                                <div class="fw-bold"><span class="fw-normal">Alamat :</span> {{ $d->address }}, {{ $d->regencies->name }}, {{ $d->regencies->city }} <br>
+                                    <span class="fw-normal">Telp :</span> {{ $d->phone }}
+                                </div>
                             </td>
-                            @foreach ($d->pesanans as $item)
-                            <td class="text-top">{{ $item->flowers->name }}</td>
-                            <td class="text-top text-center">{{ $item->total }}</td>
-                            @endforeach
-    
-                            <td class="text-top">{{ $d->regencies->name }}</td>
+                            <td class="text-top">
+                                @foreach ($d->pesanans as $pesanan)
+                                    <div>{{ $pesanan->flowers->name }}</div>
+                                @endforeach
+                            </td>
+                            <td class="text-top text-center">
+                                @foreach ($d->pesanans as $pesanan)
+                                    <div>{{ $pesanan->total }}</div>
+                                @endforeach
+                            </td>
+                            <td class="text-top">
+                                @if ($flowersCount > 1)
+                                    @for ($i = 0; $i < $flowersCount; $i++)
+                                        <div>{{ $d->regencies->name }}</div>
+                                    @endfor
+                                @else
+                                    <div>{{ $d->regencies->name }}</div>
+                                @endif
+                            </td>
                             <td class="text-top">{{ $d->notes }}</td>
                             <td class="text-top">{{ $d->day->name }}</td>
                             <td class="text-top">{{ $d->pic }}</td>
@@ -87,11 +111,12 @@
                         </td>
                     </tr>
                 @endif
-
             </tbody>
+
+
         </table>
         {{ $data->links() }}
-        
+
 
     </div>
     @push('alert_delete')

@@ -20,13 +20,15 @@ class LanggananController extends Controller
         if (!empty($search)) {
             $query = Langganan::where('name', 'like', '%' . $search . '%')
                 ->orWhere('address', 'like', '%' . $search . '%')
-                ->paginate(10)->withQueryString();
+                ->orderBy('updated_at', 'desc');
         } else {
-            $query = Langganan::orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
+            $query = Langganan::orderBy('updated_at', 'desc');
         }
 
-        return view('customers.langgananIndex', [
-            'data' => $query,
+        $data = $query->paginate(10)->withQueryString();
+
+       return view('customers.langgananIndex', [
+            'data' => $data,
             'search' => $search,
             'dataName' => Customers::orderBy('name', 'asc')->get(),
 
