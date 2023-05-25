@@ -4,7 +4,7 @@
     <div class="table p-2 mt-5">
         @can('Create_Langganan')
         <div class="fiturbutton p-3 d-flex flex-row-reverse">
-            <button class="btn btn-primary" onclick="window.location='{{ url('/orders/create') }}'"><i
+            <button class="btn btn-primary" onclick="window.location='{{ url('/day/create') }}'"><i
                     class="bi bi-plus-lg"></i><span class="me-2">Tambah</span> </button>
         </div>
         @endcan

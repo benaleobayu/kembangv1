@@ -39,9 +39,7 @@ class DayController extends Controller
     //    
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $validateData = $request->validate([
@@ -55,9 +53,6 @@ class DayController extends Controller
         return redirect('/daysubscribs')->with('success', 'Data berhasil ditambahkan !');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request, Day $day, $slug)
     {
         $query = $day->where('slug', $slug)->firstOrFail()->langganan();
@@ -80,9 +75,6 @@ class DayController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Day $day, $id)
     {
         $data = $day->find($id);
@@ -123,65 +115,4 @@ class DayController extends Controller
         }
     }
 
-    public function showEdit($id)
-    {
-        $langganans = Langganan::findOrFail($id);
-
-
-        if (!$langganans) {
-            return redirect('/subscribers')->with('error', 'Data tidak ditemukan !');
-        }
-
-        $pesanans = $langganans->pesanans ?? [];
-        $data = [
-            'data' => $langganans,
-            'flowers' => Flowers::orderBy('name', 'asc')->get(),
-            'regency' => Regency::orderBy('name', 'asc')->get(),
-            'day' => Day::whereBetween('id', [1, 8])->orderBy('id', 'asc')->get(),
-            'pesanans' => $pesanans
-            // ... tambahkan data lain yang diperlukan ...
-        ];
-        return view('customers.langgananEdit', $data);
-    }
-
-    public function showUpdate(Request $request, Langganan $langganan, $id)
-    {
-
-        $subscriber = Langganan::findOrFail($id);
-
-        $request->validate([
-            'name' => 'required|string',
-            'phone' => 'required|string',
-            'address' => 'required|string',
-            'regencies_id' => 'required|exists:regencies,id',
-            'day_id' => 'required|exists:days,id',
-            'notes' => 'nullable|string',
-            'pesanans' => 'nullable|array',
-            'pesanans.*.flowers_id' => 'required|exists:flowers,id',
-            'pesanans.*.total' => 'required|integer',
-        ]);
-
-        $subscriber->name = $request->name;
-        $subscriber->phone = $request->phone;
-        $subscriber->address = $request->address;
-        $subscriber->regencies_id = $request->regencies_id;
-        $subscriber->day_id = $request->day_id;
-        $subscriber->notes = $request->notes;
-        $subscriber->pic = auth()->user()->name;
-
-        $subscriber->pesanans()->delete();
-
-        if ($request->has('pesanans')) {
-            foreach ($request->pesanans as $pesanan) {
-                $subscriber->pesanans()->create([
-                    'flowers_id' => $pesanan['flowers_id'],
-                    'total' => $pesanan['total'],
-                ]);
-            }
-        }
-
-        $subscriber->save();
-
-        return redirect('/daysubscribs' )->with('success', 'Data pelanggan berhasil diperbarui.');
-    }
 }

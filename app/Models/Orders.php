@@ -18,7 +18,6 @@ class Orders extends Model
         'address',
         'regencies_id',
         'phone',
-        'flowers_id',
         'notes',
         'image',
         'pic'

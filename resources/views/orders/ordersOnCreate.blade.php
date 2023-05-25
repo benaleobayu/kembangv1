@@ -12,7 +12,6 @@
                 <div class="card-body">
                     <form action="/orders" method="post" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
                         <div class="row">
                             <div class="col">
                                 <label class="py-1" for="name">Nama</label>
@@ -27,7 +26,7 @@
                             <div class="col">
                                 <label class="py-1" for="phone">Nomor Handphone</label>
                                 <input name="phone" class="form-control py-1 @error('phone') is-invalid @enderror"
-                                    type="text" value="{{ old('phone' }}" required>
+                                    type="text" value="{{ old('phone') }}" required>
                                 @error('phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -70,41 +69,18 @@
                             </div>
                             <div id="order-section">
                                 <div class="card-body" id="pesanan-container">
-                                    @foreach ($pesanans as $index => $pesanan)
-                                    <div class="pesanan-item">
-                                        <div class="row d-flex">
-                                            <div class="col">
-                                                <label class="py-1" for="flowers_id">Bunga</label>
-                                                <select name="pesanans[{{ $index }}][flowers_id]" class="form-select" required>
-                                                    @foreach ($flowers as $item)
-                                                        <option value="{{ $item->id }}" {{ $item->id == $pesanan['flowers_id'] ? 'selected' : '' }}>
-                                                            {{ $item->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col">
-                                                <label class="py-1" for="total">Total</label>
-                                                <input name="pesanans[{{ $index }}][total]" class="form-control py-1" type="text"
-                                                    value="{{ $pesanan['total'] }}" required>
-                                            </div>
-                                            <div class="col d-flex align-items-end">
-                                                <button type="button" class="btn btn-danger remove-pesanan">Hapus Pesanan</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                                   
                                 </div>
                             </div>
                         </div>
-                        <label class="py-1" for="day_id">Hari Langganan</label>
-                        <select name="day_id" id="day_id" class="form-select" required>
+                        <label class="py-1" for="day_id">Hari Pengiriman</label>
+                        <select name="day_id" id="day_id" class="form-select" required data-validation="[NOTEMPTY]">
+                            <option value="">{{ $day->id }}</option>
                             @foreach ($day as $row)
-                                @if (old('day_id', old('')->id) == $row->id)
-                                    <option value="{{ $row->id }}" selected>{{ $row->name }}
-                                    </option>
+                                @if (old('day_id') == $row->id)
+                                    <option value="{{ $row->id }}" selected>{{ $row->name }} - {{ $row->date }}</option>
                                 @else
-                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                    <option value="{{ $row->id }}">{{ $row->name }} - {{ $row->date }}</option>
                                 @endif
                             @endforeach
                         </select>

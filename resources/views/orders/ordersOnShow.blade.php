@@ -3,7 +3,7 @@
 @section('content')
     <div class="table p-2 mt-5">
         @can('Create_Langganan')
-            <div class="row p-3">
+            <div class="row py-3">
                 <div class="col flex-row w-100" style="max-width: 300px">
                     <form action="/orders/import" method="POST" id="import-form">
                         @csrf
@@ -29,7 +29,7 @@
         <div class="row search-breadcrumbs d-flex">
             <div class="col d-flex align-items-center">
                 <div class="fw-bold">
-                    Pesanan : {{ $data[1]->day->name }} {{ $data[1]->day->date }}
+                    Pesanan : {{ $slug }} / Id : {{ $day->id }}
                 </div>
             </div>
             <div class="col d-flex align-items-end flex-row-reverse">
