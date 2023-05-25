@@ -20,7 +20,10 @@ class DayOnOrderController extends Controller
      */
     public function create()
     {
-        //
+        return view('customers.dayCreate', [
+            'onSlug' => 'day',
+            'days' => Day::whereBetween('id', [1, 8])->orderBy('id', 'asc')->get(),
+        ]);
     }
 
     /**
@@ -28,7 +31,15 @@ class DayOnOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required',
+            'slug' => 'nullable',
+            'date' => 'nullable'
+        ]);
+
+        Day::create($validateData);
+
+        return redirect('/orders')->with('success', 'Data Hari berhasil dibuat !');
     }
 
     /**
@@ -36,7 +47,7 @@ class DayOnOrderController extends Controller
      */
     public function show(Day $day)
     {
-        //
+    //    
     }
 
     /**
