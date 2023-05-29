@@ -4,15 +4,20 @@
     <div class="table p-2 mt-5">
         @can('Create_Langganan')
             <div class="row py-3">
-                <div class="col flex-row w-100" style="max-width: 300px">
+                <div class="col flex-row w-100" style="max-width: 500px">
                     <form action="/orders/import" method="POST" id="import-form">
                         @csrf
                         <label for="day_id">Import Hari:</label>
                         <div class="input-group ms-auto">
-                            <select name="day_id" id="day_id" class="form-select">
+                            <select name="day_id" id="day_id" class="form-select rounded-end">
                                 @foreach ($days as $day)
                                     <option value="{{ $day->id }}">{{ $day->name }}</option>
                                 @endforeach
+                            </select>
+                            
+                            <div class="d-flex align-items-center mx-2">To :</div>
+                            <select name="toDay_id" id="toDay_id" class="form-control rounded">
+                                    <option value="{{ $day->id }}">{{ $day->name }} - {{ $day->date }}</option>
                             </select>
                             <button class="import-btn btn btn-primary rounded d-inline" type="submit">Import</button>
                         </div>

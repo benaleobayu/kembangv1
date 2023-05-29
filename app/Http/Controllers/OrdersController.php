@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class OrdersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(Request $request)
     {
         $search = $request->query('search');
@@ -36,9 +34,6 @@ class OrdersController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Orders $orders)
     {
         $day = $orders->day;
@@ -54,9 +49,6 @@ class OrdersController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request, Day $days)
     {
         $slug = $days->slug;
@@ -99,13 +91,9 @@ class OrdersController extends Controller
         return redirect('/orders/' . $slug)->with('success', 'Order berhasil diubah !');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request, Day $day, $slug)
     {
         $query = $day->where('slug', $slug)->firstOrFail()->orders()->orderBy('updated_at', 'desc');
-
         $search = $request->query('search');
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -212,6 +200,7 @@ class OrdersController extends Controller
     public function importData(Request $request)
     {
         $dayId = $request->input('day_id');
+        $toDayId = $request->input('toDay_id');
 
         $langganans = Langganan::where('day_id', $dayId)->get();
 
@@ -231,8 +220,7 @@ class OrdersController extends Controller
             $order->address = $address;
             $order->regencies_id = $regencies_id;
             $order->phone = $phone;
-            $order->flowers_id = 1;
-            $order->day_id = $dayId; // Set nilai day_id untuk baris order
+            $order->day_id = $toDayId; // Set nilai day_id untuk baris order
             $order->notes =  $notes;
             $order->pic =  $pic;
             $order->save();
